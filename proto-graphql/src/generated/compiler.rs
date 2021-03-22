@@ -78,7 +78,7 @@ pub mod code_generator_response {
     )]
     #[serde(crate = "::proto_graphql::serde")]
     #[graphql(name = "CompilerCodeGeneratorResponseFileInput")]
-    pub struct FileGraphQlInput {
+    pub struct FileInput {
         /// The file name, relative to the output directory.  The name must not
         /// contain "." or ".." components and must be relative, not be absolute (so,
         /// the file cannot lie outside the output directory).  "/" must be used as
@@ -134,8 +134,7 @@ pub mod code_generator_response {
         /// Information describing the file content being inserted. If an insertion
         /// point is used, this information will be appropriately offset and inserted
         /// into the code generation metadata for the generated files.
-        pub generated_code_info:
-            ::core::option::Option<super::super::GeneratedCodeInfoGraphQlInput>,
+        pub generated_code_info: ::core::option::Option<super::super::GeneratedCodeInfoInput>,
     }
     #[allow(clippy::useless_conversion)]
     impl From<File> for FileGraphQl {
@@ -173,7 +172,7 @@ pub mod code_generator_response {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<File> for FileGraphQlInput {
+    impl From<File> for FileInput {
         fn from(other: File) -> Self {
             let File {
                 name,
@@ -191,9 +190,9 @@ pub mod code_generator_response {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<FileGraphQlInput> for File {
-        fn from(other: FileGraphQlInput) -> Self {
-            let FileGraphQlInput {
+    impl From<FileInput> for File {
+        fn from(other: FileInput) -> Self {
+            let FileInput {
                 name,
                 insertion_point,
                 content,
@@ -239,7 +238,7 @@ pub mod code_generator_response {
         None = 0,
         Proto3Optional = 1,
     }
-    pub use self::FeatureGraphQl as FeatureGraphQlInput;
+    pub use self::FeatureGraphQl as FeatureInput;
     #[allow(unused_imports)]
     pub use ::prost_types::compiler::code_generator_response::*;
 }
@@ -271,7 +270,7 @@ pub struct VersionGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "CompilerVersionInput")]
-pub struct VersionGraphQlInput {
+pub struct VersionInput {
     pub major: ::core::option::Option<i32>,
     pub minor: ::core::option::Option<i32>,
     pub patch: ::core::option::Option<i32>,
@@ -315,7 +314,7 @@ impl From<VersionGraphQl> for Version {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Version> for VersionGraphQlInput {
+impl From<Version> for VersionInput {
     fn from(other: Version) -> Self {
         let Version {
             major,
@@ -333,9 +332,9 @@ impl From<Version> for VersionGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<VersionGraphQlInput> for Version {
-    fn from(other: VersionGraphQlInput) -> Self {
-        let VersionGraphQlInput {
+impl From<VersionInput> for Version {
+    fn from(other: VersionInput) -> Self {
+        let VersionInput {
             major,
             minor,
             patch,
@@ -394,7 +393,7 @@ pub struct CodeGeneratorRequestGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "CompilerCodeGeneratorRequestInput")]
-pub struct CodeGeneratorRequestGraphQlInput {
+pub struct CodeGeneratorRequestInput {
     /// The .proto files that were explicitly listed on the command-line.  The
     /// code generator should generate code only for these files.  Each file's
     /// descriptor will be included in proto_file, below.
@@ -415,9 +414,9 @@ pub struct CodeGeneratorRequestGraphQlInput {
     ///
     /// Type names of fields and extensions in the FileDescriptorProto are always
     /// fully qualified.
-    pub proto_file: ::prost::alloc::vec::Vec<super::FileDescriptorProtoGraphQlInput>,
+    pub proto_file: ::prost::alloc::vec::Vec<super::FileDescriptorProtoInput>,
     /// The version number of protocol compiler.
-    pub compiler_version: ::core::option::Option<VersionGraphQlInput>,
+    pub compiler_version: ::core::option::Option<VersionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<CodeGeneratorRequest> for CodeGeneratorRequestGraphQl {
@@ -455,7 +454,7 @@ impl From<CodeGeneratorRequestGraphQl> for CodeGeneratorRequest {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<CodeGeneratorRequest> for CodeGeneratorRequestGraphQlInput {
+impl From<CodeGeneratorRequest> for CodeGeneratorRequestInput {
     fn from(other: CodeGeneratorRequest) -> Self {
         let CodeGeneratorRequest {
             file_to_generate,
@@ -473,9 +472,9 @@ impl From<CodeGeneratorRequest> for CodeGeneratorRequestGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<CodeGeneratorRequestGraphQlInput> for CodeGeneratorRequest {
-    fn from(other: CodeGeneratorRequestGraphQlInput) -> Self {
-        let CodeGeneratorRequestGraphQlInput {
+impl From<CodeGeneratorRequestInput> for CodeGeneratorRequest {
+    fn from(other: CodeGeneratorRequestInput) -> Self {
+        let CodeGeneratorRequestInput {
             file_to_generate,
             parameter,
             proto_file,
@@ -524,7 +523,7 @@ pub struct CodeGeneratorResponseGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "CompilerCodeGeneratorResponseInput")]
-pub struct CodeGeneratorResponseGraphQlInput {
+pub struct CodeGeneratorResponseInput {
     /// Error message.  If non-empty, code generation failed.  The plugin process
     /// should exit with status code zero even if it reports an error in this way.
     ///
@@ -537,7 +536,7 @@ pub struct CodeGeneratorResponseGraphQlInput {
     /// A bitmask of supported features that the code generator supports.
     /// This is a bitwise "or" of values from the Feature enum.
     pub supported_features: ::core::option::Option<u64>,
-    pub file: ::prost::alloc::vec::Vec<code_generator_response::FileGraphQlInput>,
+    pub file: ::prost::alloc::vec::Vec<code_generator_response::FileInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<CodeGeneratorResponse> for CodeGeneratorResponseGraphQl {
@@ -571,7 +570,7 @@ impl From<CodeGeneratorResponseGraphQl> for CodeGeneratorResponse {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<CodeGeneratorResponse> for CodeGeneratorResponseGraphQlInput {
+impl From<CodeGeneratorResponse> for CodeGeneratorResponseInput {
     fn from(other: CodeGeneratorResponse) -> Self {
         let CodeGeneratorResponse {
             error,
@@ -587,9 +586,9 @@ impl From<CodeGeneratorResponse> for CodeGeneratorResponseGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<CodeGeneratorResponseGraphQlInput> for CodeGeneratorResponse {
-    fn from(other: CodeGeneratorResponseGraphQlInput) -> Self {
-        let CodeGeneratorResponseGraphQlInput {
+impl From<CodeGeneratorResponseInput> for CodeGeneratorResponse {
+    fn from(other: CodeGeneratorResponseInput) -> Self {
+        let CodeGeneratorResponseInput {
             error,
             supported_features,
             file,

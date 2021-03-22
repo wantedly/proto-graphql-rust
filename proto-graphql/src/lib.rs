@@ -56,7 +56,7 @@ pub struct EmptyGraphQl {
     serde::Deserialize,
 )]
 #[graphql(name = "EmptyInput")]
-pub struct EmptyGraphQlInput {
+pub struct EmptyInput {
     #[graphql(name = "_noop", visible = false, default)]
     _noop: Option<bool>,
 }
@@ -71,12 +71,12 @@ impl From<EmptyGraphQl> for () {
     fn from(_: EmptyGraphQl) -> Self {}
 }
 
-impl From<()> for EmptyGraphQlInput {
+impl From<()> for EmptyInput {
     fn from(_: ()) -> Self {
         Self::default()
     }
 }
 
-impl From<EmptyGraphQlInput> for () {
-    fn from(_: EmptyGraphQlInput) -> Self {}
+impl From<EmptyInput> for () {
+    fn from(_: EmptyInput) -> Self {}
 }

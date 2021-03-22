@@ -14,11 +14,11 @@ use async_graphql::ComplexObject;
 use pb::reviews;
 
 #[ComplexObject]
-impl reviews::UserGraphQl {
+impl reviews::User {
     async fn reviews(
         &self,
         ctx: &async_graphql::Context<'_>,
-    ) -> async_graphql::Result<Vec<reviews::ReviewGraphQl>> {
+    ) -> async_graphql::Result<Vec<reviews::Review>> {
         use reviews::*;
         let mut grpc_client = ctx
             .data::<reviews_client::ReviewsClient<tonic::transport::Channel>>()?
@@ -29,22 +29,16 @@ impl reviews::UserGraphQl {
             })
             .await
             .map_err(|e| ::async_graphql::Error::new(e.to_string()))?;
-        let response = response
-            .into_inner()
-            .reviews
-            .into_iter()
-            .map(ReviewGraphQl::from)
-            .collect();
-        Ok(response)
+        Ok(response.into_inner().reviews)
     }
 }
 
 #[ComplexObject]
-impl reviews::ProductGraphQl {
+impl reviews::Product {
     async fn reviews(
         &self,
         ctx: &async_graphql::Context<'_>,
-    ) -> async_graphql::Result<Vec<reviews::ReviewGraphQl>> {
+    ) -> async_graphql::Result<Vec<reviews::Review>> {
         use reviews::*;
         let mut grpc_client = ctx
             .data::<reviews_client::ReviewsClient<tonic::transport::Channel>>()?
@@ -55,12 +49,6 @@ impl reviews::ProductGraphQl {
             })
             .await
             .map_err(|e| ::async_graphql::Error::new(e.to_string()))?;
-        let response = response
-            .into_inner()
-            .reviews
-            .into_iter()
-            .map(ReviewGraphQl::from)
-            .collect();
-        Ok(response)
+        Ok(response.into_inner().reviews)
     }
 }

@@ -2,7 +2,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use heck::{CamelCase, SnakeCase};
 use proc_macro2::{Ident, TokenStream};
-use quote::{format_ident, quote};
+use quote::{format_ident, quote, ToTokens};
 use syn::{
     ext::IdentExt,
     parse::{Parse, ParseStream},
@@ -22,24 +22,21 @@ impl FileVisitor {
 
         for item in &mut *items {
             match item {
-                syn::Item::Struct(item) => {
-                    let mut item = item.clone();
-                    if is_proto(&mut item.attrs) {
-                        generate_struct(&mut self_items, &self.module, item);
+                syn::Item::Struct(s) => {
+                    let mut s = s.clone();
+                    if is_proto(&mut s.attrs) {
+                        *item = syn::Item::Verbatim(generate_struct(&self.module, s));
                     }
                 }
-                syn::Item::Enum(item) => {
-                    let mut item = item.clone();
-                    if is_proto(&mut item.attrs) {
-                        let is_enum = item
-                            .variants
-                            .iter()
-                            .all(|variant| variant.fields.is_empty());
-                        if is_enum {
-                            generate_enum(&mut self_items, &self.module, item);
+                syn::Item::Enum(e) => {
+                    let mut e = e.clone();
+                    if is_proto(&mut e.attrs) {
+                        let is_enum = e.variants.iter().all(|variant| variant.fields.is_empty());
+                        *item = syn::Item::Verbatim(if is_enum {
+                            generate_enum(&self.module, e)
                         } else {
-                            generate_union(&mut self_items, &self.module, item);
-                        }
+                            generate_union(&self.module, e)
+                        });
                     }
                 }
                 syn::Item::Mod(item_mod) => {
@@ -79,7 +76,7 @@ impl VisitMut for TypeVisitor {
         if self.input {
             match ty {
                 syn::Type::Tuple(t) if t.elems.is_empty() => {
-                    *ty = syn::parse_quote!(::proto_graphql::EmptyGraphQlInput);
+                    *ty = syn::parse_quote!(::proto_graphql::EmptyInput);
                     return;
                 }
                 _ => {}
@@ -96,9 +93,9 @@ impl VisitMut for TypeVisitor {
         if will_rename(&path) {
             let ident = &mut path.segments.last_mut().unwrap().ident;
             if self.input {
-                *ident = format_ident!("{}GraphQlInput", ident);
+                *ident = format_ident!("{}Input", ident);
             } else {
-                *ident = format_ident!("{}GraphQl", ident);
+                // *ident = format_ident!("{}", ident);
             }
         }
     }
@@ -150,7 +147,7 @@ fn parse_proto_ty(
     is_input: bool,
     path_prefix: &str,
 ) -> syn::Result<GraphQlTy> {
-    let ty_suffix = if is_input { "GraphQlInput" } else { "GraphQl" };
+    let ty_suffix = if is_input { "Input" } else { "" };
 
     let ty = if input.peek(kw::optional) {
         input.parse::<kw::optional>()?;
@@ -335,18 +332,15 @@ impl GraphqlAnnotations {
     }
 }
 
-pub(crate) fn generate_struct(
-    self_items: &mut Vec<syn::Item>,
-    module: &[PathSegment],
-    mut item: syn::ItemStruct,
-) {
+pub(crate) fn generate_struct(module: &[PathSegment], mut item: syn::ItemStruct) -> TokenStream {
     assert!(matches!(item.fields, syn::Fields::Named(..)));
     let mut annotations = GraphqlAnnotations::default();
 
     let mut input_item = item.clone();
+    remove_prost_derive(&mut input_item.attrs);
     let proto_name = item.ident.clone();
-    item.ident = format_ident!("{}GraphQl", proto_name);
-    input_item.ident = format_ident!("{}GraphQlInput", proto_name);
+    // item.ident = format_ident!("{}GraphQl", proto_name);
+    input_item.ident = format_ident!("{}Input", proto_name);
     let graphql_name = &item.ident;
     let graphql_input_name = &input_item.ident;
 
@@ -406,23 +400,23 @@ pub(crate) fn generate_struct(
                     colon_token: Some(Default::default()),
                 });
 
-                self_items.push(syn::Item::Verbatim(quote! {
+                return quote! {
                     #item
                     #input_item
-                    #[allow(clippy::useless_conversion)]
-                    impl From<#proto_name> for #graphql_name {
-                        fn from(other: #proto_name) -> Self {
-                            let #proto_name { } = other;
-                            Self { _noop: None }
-                        }
-                    }
-                    #[allow(clippy::useless_conversion)]
-                    impl From<#graphql_name> for #proto_name {
-                        fn from(other: #graphql_name) -> Self {
-                            let #graphql_name { _noop } = other;
-                            Self {}
-                        }
-                    }
+                    // #[allow(clippy::useless_conversion)]
+                    // impl From<#proto_name> for #graphql_name {
+                    //     fn from(other: #proto_name) -> Self {
+                    //         let #proto_name { } = other;
+                    //         Self { _noop: None }
+                    //     }
+                    // }
+                    // #[allow(clippy::useless_conversion)]
+                    // impl From<#graphql_name> for #proto_name {
+                    //     fn from(other: #graphql_name) -> Self {
+                    //         let #graphql_name { _noop } = other;
+                    //         Self {}
+                    //     }
+                    // }
                     #[allow(clippy::useless_conversion)]
                     impl From<#proto_name> for #graphql_input_name {
                         fn from(other: #proto_name) -> Self {
@@ -437,12 +431,10 @@ pub(crate) fn generate_struct(
                             Self {}
                         }
                     }
-                }));
+                };
             }
             _ => unreachable!(),
         }
-
-        return;
     }
 
     item.attrs
@@ -460,7 +452,7 @@ pub(crate) fn generate_struct(
     let mut graphql_bindings = vec![];
     for (i, field) in item.fields.iter_mut().enumerate() {
         let mut enumeration = false;
-        if let Some(prost) = find_remove(&mut field.attrs, "prost") {
+        if let Some(prost) = find(&field.attrs, "prost") {
             let prost = prost_attr(prost);
             if let Some(s) = prost.get("enumeration") {
                 enumeration = true;
@@ -503,24 +495,24 @@ pub(crate) fn generate_struct(
         TypeVisitor { input: true }.visit_type_mut(&mut field.ty);
     }
 
-    self_items.push(syn::Item::Verbatim(quote! {
+    return quote! {
         #item
         #input_item
-        #[allow(clippy::useless_conversion)]
-        impl From<#proto_name> for #graphql_name {
-            fn from(other: #proto_name) -> Self {
-                #(#pre_convert_proto)*
-                let #proto_name { #(#proto_bindings)* .. } = other;
-                Self { #(#convert_proto)* }
-            }
-        }
-        #[allow(clippy::useless_conversion)]
-        impl From<#graphql_name> for #proto_name {
-            fn from(other: #graphql_name) -> Self {
-                let #graphql_name { #(#graphql_bindings)* } = other;
-                Self { #(#convert_graphql)* }
-            }
-        }
+        // #[allow(clippy::useless_conversion)]
+        // impl From<#proto_name> for #graphql_name {
+        //     fn from(other: #proto_name) -> Self {
+        //         #(#pre_convert_proto)*
+        //         let #proto_name { #(#proto_bindings)* .. } = other;
+        //         Self { #(#convert_proto)* }
+        //     }
+        // }
+        // #[allow(clippy::useless_conversion)]
+        // impl From<#graphql_name> for #proto_name {
+        //     fn from(other: #graphql_name) -> Self {
+        //         let #graphql_name { #(#graphql_bindings)* } = other;
+        //         Self { #(#convert_graphql)* }
+        //     }
+        // }
         #[allow(clippy::useless_conversion)]
         impl From<#proto_name> for #graphql_input_name {
             fn from(other: #proto_name) -> Self {
@@ -537,14 +529,12 @@ pub(crate) fn generate_struct(
                 Self { #(#convert_graphql)* }
             }
         }
-    }));
+    };
 }
 
-pub(crate) fn generate_union(
-    self_items: &mut Vec<syn::Item>,
-    module: &[PathSegment],
-    mut item: syn::ItemEnum,
-) {
+pub(crate) fn generate_union(module: &[PathSegment], mut item: syn::ItemEnum) -> TokenStream {
+    let mut res = quote!();
+
     // GraphQL unions is similar to Rust enums with fields.
     let derive_union: syn::Attribute = parse_quote! {
         #[derive(::async_graphql::Union, ::proto_graphql::serde::Serialize,
@@ -557,9 +547,10 @@ pub(crate) fn generate_union(
     };
 
     let mut input_item = item.clone();
+    remove_prost_derive(&mut input_item.attrs);
     let proto_name = item.ident.clone();
-    item.ident = format_ident!("{}GraphQl", proto_name);
-    input_item.ident = format_ident!("{}GraphQlInput", proto_name);
+    // item.ident = format_ident!("{}GraphQl", proto_name);
+    input_item.ident = format_ident!("{}Input", proto_name);
     let graphql_name = item.ident.clone();
     let graphql_input_name = input_item.ident.clone();
 
@@ -580,9 +571,7 @@ pub(crate) fn generate_union(
 
     let mut fields = vec![];
     for variant in &mut item.variants {
-        find_remove(&mut variant.attrs, "prost");
         for field in variant.fields.iter_mut() {
-            find_remove(&mut field.attrs, "prost");
             TypeVisitor { input: false }.visit_type_mut(&mut field.ty);
             match &field.ty {
                 syn::Type::Path(ty) => {
@@ -595,7 +584,7 @@ pub(crate) fn generate_union(
                         let newtype_ident = format_ident!("{}{}", item.ident, variant.ident);
                         let ty = field.ty.clone();
                         field.ty = parse_quote!(#newtype_ident);
-                        self_items.push(syn::Item::Verbatim(quote! {
+                        res.extend(quote! {
                             #[derive(
                                 Clone, PartialEq,
                                 ::async_graphql::SimpleObject,
@@ -619,7 +608,7 @@ pub(crate) fn generate_union(
                                     Self{ #field_name: other }
                                 }
                             }
-                        }));
+                        });
                         continue;
                     }
                 }
@@ -630,7 +619,7 @@ pub(crate) fn generate_union(
                     let newtype_ident = format_ident!("{}{}", item.ident, variant_name);
                     let ty = field.ty.clone();
                     field.ty = parse_quote!(#newtype_ident);
-                    self_items.push(syn::Item::Verbatim(quote! {
+                    res.extend(quote! {
                         #[derive(
                             Clone, PartialEq,
                             ::async_graphql::SimpleObject,
@@ -653,7 +642,7 @@ pub(crate) fn generate_union(
                                 Self{ _noop: None }
                             }
                         }
-                    }));
+                    });
                     continue;
                 }
                 _ => {}
@@ -706,7 +695,7 @@ pub(crate) fn generate_union(
             }
         });
         let attrs = &input_item.attrs;
-        self_items.push(syn::Item::Verbatim(quote! {
+        res.extend(quote! {
             #(#attrs)*
             pub struct #graphql_input_name {
                 #(#fields_def)*
@@ -729,7 +718,7 @@ pub(crate) fn generate_union(
                     }
                 }
             }
-        }));
+        });
     }
 
     let mut from_proto = vec![];
@@ -785,33 +774,30 @@ pub(crate) fn generate_union(
         }
     });
 
-    self_items.push(syn::Item::Verbatim(quote! {
-        #[allow(clippy::useless_conversion)]
-        impl From<#proto_name> for #graphql_name {
-            fn from(other: #proto_name) -> Self {
-                match other {
-                    #(#from_proto)*
-                }
-            }
-        }
-        #[allow(clippy::useless_conversion)]
-        impl From<#graphql_name> for #proto_name {
-            fn from(other: #graphql_name) -> Self {
-                match other {
-                    #(#from_graphql)*
-                }
-            }
-        }
-    }));
+    res.extend(quote! {
+        // #[allow(clippy::useless_conversion)]
+        // impl From<#proto_name> for #graphql_name {
+        //     fn from(other: #proto_name) -> Self {
+        //         match other {
+        //             #(#from_proto)*
+        //         }
+        //     }
+        // }
+        // #[allow(clippy::useless_conversion)]
+        // impl From<#graphql_name> for #proto_name {
+        //     fn from(other: #graphql_name) -> Self {
+        //         match other {
+        //             #(#from_graphql)*
+        //         }
+        //     }
+        // }
+    });
 
-    self_items.push(item.into());
+    res.extend(item.to_token_stream());
+    res
 }
 
-pub(crate) fn generate_enum(
-    self_items: &mut Vec<syn::Item>,
-    module: &[PathSegment],
-    mut item: syn::ItemEnum,
-) {
+pub(crate) fn generate_enum(module: &[PathSegment], mut item: syn::ItemEnum) -> TokenStream {
     // GraphQL enums is similar to Rust enums with no fields.
     let derive_enum: syn::Attribute = parse_quote! {
         #[derive(::async_graphql::Enum, ::proto_graphql::serde::Serialize,
@@ -819,9 +805,10 @@ pub(crate) fn generate_enum(
     };
 
     let mut input_item = item.clone();
+    remove_prost_derive(&mut input_item.attrs);
     let proto_name = item.ident.clone();
-    item.ident = format_ident!("{}GraphQl", proto_name);
-    input_item.ident = format_ident!("{}GraphQlInput", proto_name);
+    // item.ident = format_ident!("{}GraphQl", proto_name);
+    input_item.ident = format_ident!("{}Input", proto_name);
     let graphql_name = item.ident.clone();
     let graphql_input_name = input_item.ident.clone();
 
@@ -840,12 +827,8 @@ pub(crate) fn generate_enum(
         .attrs
         .push(parse_quote!(#[graphql(name = #input_name)]));
 
-    for variant in &mut item.variants {
+    for variant in &mut input_item.variants {
         find_remove(&mut variant.attrs, "prost");
-        for field in variant.fields.iter_mut() {
-            find_remove(&mut field.attrs, "prost");
-            TypeVisitor { input: false }.visit_type_mut(&mut field.ty);
-        }
     }
 
     let mut from_proto = vec![];
@@ -901,29 +884,26 @@ pub(crate) fn generate_enum(
         }
     });
 
-    self_items.push(syn::Item::Verbatim(quote! {
-        #[allow(clippy::useless_conversion)]
-        impl From<#proto_name> for #graphql_name {
-            fn from(other: #proto_name) -> Self {
-                match other {
-                    #(#from_proto)*
-                }
-            }
-        }
-        #[allow(clippy::useless_conversion)]
-        impl From<#graphql_name> for #proto_name {
-            fn from(other: #graphql_name) -> Self {
-                match other {
-                    #(#from_graphql)*
-                }
-            }
-        }
-    }));
-
-    self_items.push(item.into());
-    self_items.push(syn::Item::Verbatim(quote! {
+    return quote! {
+        #item
         pub use self::#graphql_name as #graphql_input_name;
-    }));
+        // #[allow(clippy::useless_conversion)]
+        // impl From<#proto_name> for #graphql_name {
+        //     fn from(other: #proto_name) -> Self {
+        //         match other {
+        //             #(#from_proto)*
+        //         }
+        //     }
+        // }
+        // #[allow(clippy::useless_conversion)]
+        // impl From<#graphql_name> for #proto_name {
+        //     fn from(other: #graphql_name) -> Self {
+        //         match other {
+        //             #(#from_graphql)*
+        //         }
+        //     }
+        // }
+    };
 }
 
 pub(crate) fn convert_field(
@@ -1031,7 +1011,28 @@ pub(crate) fn convert_field(
     (convert.clone(), convert, quote!())
 }
 
-pub(crate) fn is_proto(attrs: &mut Vec<syn::Attribute>) -> bool {
+pub(crate) fn is_proto(attrs: &[syn::Attribute]) -> bool {
+    for meta in attrs.iter().filter_map(|attr| attr.parse_meta().ok()) {
+        if let syn::Meta::List(list) = meta {
+            if list.path.is_ident("derive") {
+                for meta in &list.nested {
+                    match meta {
+                        syn::NestedMeta::Meta(syn::Meta::Path(path))
+                        | syn::NestedMeta::Meta(syn::Meta::List(syn::MetaList { path, .. }))
+                            if path.segments[0].ident == "prost" =>
+                        {
+                            return true;
+                        }
+                        _ => {}
+                    }
+                }
+            }
+        }
+    }
+    false
+}
+
+pub(crate) fn remove_prost_derive(attrs: &mut Vec<syn::Attribute>) {
     for (i, meta) in attrs
         .iter_mut()
         .enumerate()
@@ -1048,7 +1049,7 @@ pub(crate) fn is_proto(attrs: &mut Vec<syn::Attribute>) -> bool {
                             let mut tmp: Vec<_> = list.nested.iter().cloned().collect();
                             tmp.remove(j);
                             attrs[i] = parse_quote!(#[derive(#(#tmp,)*)]);
-                            return true;
+                            return;
                         }
                         _ => {}
                     }
@@ -1056,10 +1057,9 @@ pub(crate) fn is_proto(attrs: &mut Vec<syn::Attribute>) -> bool {
             }
         }
     }
-    false
 }
 
-pub(crate) fn prost_attr(attr: syn::Attribute) -> BTreeMap<String, syn::Lit> {
+pub(crate) fn prost_attr(attr: &syn::Attribute) -> BTreeMap<String, syn::Lit> {
     let mut map = BTreeMap::new();
     let meta = attr.parse_meta().unwrap();
     let list = if let syn::Meta::List(list) = meta {
@@ -1074,6 +1074,13 @@ pub(crate) fn prost_attr(attr: syn::Attribute) -> BTreeMap<String, syn::Lit> {
         }
     }
     map
+}
+
+pub(crate) fn find<'a>(attrs: &'a Vec<syn::Attribute>, ident: &str) -> Option<&'a syn::Attribute> {
+    attrs
+        .iter()
+        .position(|attr| attr.path.is_ident(ident))
+        .map(|i| &attrs[i])
 }
 
 pub(crate) fn find_remove(attrs: &mut Vec<syn::Attribute>, ident: &str) -> Option<syn::Attribute> {

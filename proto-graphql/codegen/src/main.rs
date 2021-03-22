@@ -70,24 +70,21 @@ impl FileVisitor {
 
         for item in &mut *items {
             match item {
-                syn::Item::Struct(item) => {
-                    let mut item = item.clone();
-                    if is_proto(&mut item.attrs) {
-                        generate_struct(&mut self_items, &self.module, item);
+                syn::Item::Struct(s) => {
+                    let mut s = s.clone();
+                    if is_proto(&mut s.attrs) {
+                        *item = syn::Item::Verbatim(generate_struct(&self.module, s));
                     }
                 }
-                syn::Item::Enum(item) => {
-                    let mut item = item.clone();
-                    if is_proto(&mut item.attrs) {
-                        let is_enum = item
-                            .variants
-                            .iter()
-                            .all(|variant| variant.fields.is_empty());
-                        if is_enum {
-                            generate_enum(&mut self_items, &self.module, item);
+                syn::Item::Enum(e) => {
+                    let mut e = e.clone();
+                    if is_proto(&mut e.attrs) {
+                        let is_enum = e.variants.iter().all(|variant| variant.fields.is_empty());
+                        *item = syn::Item::Verbatim(if is_enum {
+                            generate_enum(&self.module, e)
                         } else {
-                            generate_union(&mut self_items, &self.module, item);
-                        }
+                            generate_union(&self.module, e)
+                        });
                     }
                 }
                 syn::Item::Mod(item_mod) => {

@@ -1,19 +1,135 @@
-#[derive(Clone, PartialEq, :: prost :: Message)]
+#[derive(
+    Clone,
+    PartialEq,
+    :: prost :: Message,
+    :: async_graphql :: SimpleObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "User")]
 pub struct User {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub username: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, :: prost :: Message)]
+#[derive(
+    Clone,
+    PartialEq,
+    :: async_graphql :: InputObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "UserInput")]
+pub struct UserInput {
+    pub id: ::prost::alloc::string::String,
+    pub username: ::prost::alloc::string::String,
+}
+#[allow(clippy::useless_conversion)]
+impl From<User> for UserInput {
+    fn from(other: User) -> Self {
+        let User { id, username, .. } = other;
+        Self {
+            id: id.into(),
+            username: username.into(),
+        }
+    }
+}
+#[allow(clippy::useless_conversion)]
+impl From<UserInput> for User {
+    fn from(other: UserInput) -> Self {
+        let UserInput { id, username } = other;
+        Self {
+            id: id.into(),
+            username: username.into(),
+        }
+    }
+}
+#[derive(
+    Clone,
+    PartialEq,
+    :: prost :: Message,
+    :: async_graphql :: SimpleObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "UserRequest")]
 pub struct UserRequest {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, :: prost :: Message)]
+#[derive(
+    Clone,
+    PartialEq,
+    :: async_graphql :: InputObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "UserRequestInput")]
+pub struct UserRequestInput {
+    pub id: ::prost::alloc::string::String,
+}
+#[allow(clippy::useless_conversion)]
+impl From<UserRequest> for UserRequestInput {
+    fn from(other: UserRequest) -> Self {
+        let UserRequest { id, .. } = other;
+        Self { id: id.into() }
+    }
+}
+#[allow(clippy::useless_conversion)]
+impl From<UserRequestInput> for UserRequest {
+    fn from(other: UserRequestInput) -> Self {
+        let UserRequestInput { id } = other;
+        Self { id: id.into() }
+    }
+}
+#[derive(
+    Clone,
+    PartialEq,
+    :: prost :: Message,
+    :: async_graphql :: SimpleObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "UserResponse")]
 pub struct UserResponse {
     #[prost(message, optional, tag = "1")]
     pub user: ::core::option::Option<User>,
+}
+#[derive(
+    Clone,
+    PartialEq,
+    :: async_graphql :: InputObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "UserResponseInput")]
+pub struct UserResponseInput {
+    pub user: ::core::option::Option<UserInput>,
+}
+#[allow(clippy::useless_conversion)]
+impl From<UserResponse> for UserResponseInput {
+    fn from(other: UserResponse) -> Self {
+        let UserResponse { user, .. } = other;
+        Self {
+            user: user.map(Into::into),
+        }
+    }
+}
+#[allow(clippy::useless_conversion)]
+impl From<UserResponseInput> for UserResponse {
+    fn from(other: UserResponseInput) -> Self {
+        let UserResponseInput { user } = other;
+        Self {
+            user: user.map(Into::into),
+        }
+    }
 }
 /// Generated client implementations.
 pub mod accounts_client {
@@ -136,7 +252,7 @@ pub mod accounts_graphql {
         pub async fn me(
             &self,
             ctx: &::async_graphql::Context<'_>,
-        ) -> ::async_graphql::Result<super::UserGraphQl> {
+        ) -> ::async_graphql::Result<super::User> {
             let mut grpc_client = ctx
                 .data::<super::accounts_client::AccountsClient<T>>()?
                 .clone();
@@ -144,7 +260,7 @@ pub mod accounts_graphql {
                 .me(())
                 .await
                 .map_err(|e| ::async_graphql::Error::new(e.to_string()))?;
-            let response = <super::UserGraphQl>::from(response.into_inner());
+            let response = <super::User>::from(response.into_inner());
             Ok(response)
         }
         /// graphql: entity, inputs(string id), output(optional User user)
@@ -153,8 +269,8 @@ pub mod accounts_graphql {
             &self,
             ctx: &::async_graphql::Context<'_>,
             id: ::prost::alloc::string::String,
-        ) -> ::async_graphql::Result<::core::option::Option<super::UserGraphQl>> {
-            let request = super::UserRequestGraphQlInput { id };
+        ) -> ::async_graphql::Result<::core::option::Option<super::User>> {
+            let request = super::UserRequestInput { id };
             let mut grpc_client = ctx
                 .data::<super::accounts_client::AccountsClient<T>>()?
                 .clone();
@@ -162,7 +278,7 @@ pub mod accounts_graphql {
                 .find_user_by_id(<super::UserRequest>::from(request))
                 .await
                 .map_err(|e| ::async_graphql::Error::new(e.to_string()))?;
-            let response = <super::UserResponseGraphQl>::from(response.into_inner());
+            let response = <super::UserResponse>::from(response.into_inner());
             Ok(response.user)
         }
     }
@@ -324,183 +440,5 @@ pub mod accounts_server {
     }
     impl<T: Accounts> tonic::transport::NamedService for AccountsServer<T> {
         const NAME: &'static str = "federation.accounts.Accounts";
-    }
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: SimpleObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "User")]
-pub struct UserGraphQl {
-    pub id: ::prost::alloc::string::String,
-    pub username: ::prost::alloc::string::String,
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: InputObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "UserInput")]
-pub struct UserGraphQlInput {
-    pub id: ::prost::alloc::string::String,
-    pub username: ::prost::alloc::string::String,
-}
-#[allow(clippy::useless_conversion)]
-impl From<User> for UserGraphQl {
-    fn from(other: User) -> Self {
-        let User { id, username, .. } = other;
-        Self {
-            id: id.into(),
-            username: username.into(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserGraphQl> for User {
-    fn from(other: UserGraphQl) -> Self {
-        let UserGraphQl { id, username } = other;
-        Self {
-            id: id.into(),
-            username: username.into(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<User> for UserGraphQlInput {
-    fn from(other: User) -> Self {
-        let User { id, username, .. } = other;
-        Self {
-            id: id.into(),
-            username: username.into(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserGraphQlInput> for User {
-    fn from(other: UserGraphQlInput) -> Self {
-        let UserGraphQlInput { id, username } = other;
-        Self {
-            id: id.into(),
-            username: username.into(),
-        }
-    }
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: SimpleObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "UserRequest")]
-pub struct UserRequestGraphQl {
-    pub id: ::prost::alloc::string::String,
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: InputObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "UserRequestInput")]
-pub struct UserRequestGraphQlInput {
-    pub id: ::prost::alloc::string::String,
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserRequest> for UserRequestGraphQl {
-    fn from(other: UserRequest) -> Self {
-        let UserRequest { id, .. } = other;
-        Self { id: id.into() }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserRequestGraphQl> for UserRequest {
-    fn from(other: UserRequestGraphQl) -> Self {
-        let UserRequestGraphQl { id } = other;
-        Self { id: id.into() }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserRequest> for UserRequestGraphQlInput {
-    fn from(other: UserRequest) -> Self {
-        let UserRequest { id, .. } = other;
-        Self { id: id.into() }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserRequestGraphQlInput> for UserRequest {
-    fn from(other: UserRequestGraphQlInput) -> Self {
-        let UserRequestGraphQlInput { id } = other;
-        Self { id: id.into() }
-    }
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: SimpleObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "UserResponse")]
-pub struct UserResponseGraphQl {
-    pub user: ::core::option::Option<UserGraphQl>,
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: InputObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "UserResponseInput")]
-pub struct UserResponseGraphQlInput {
-    pub user: ::core::option::Option<UserGraphQlInput>,
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserResponse> for UserResponseGraphQl {
-    fn from(other: UserResponse) -> Self {
-        let UserResponse { user, .. } = other;
-        Self {
-            user: user.map(Into::into),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserResponseGraphQl> for UserResponse {
-    fn from(other: UserResponseGraphQl) -> Self {
-        let UserResponseGraphQl { user } = other;
-        Self {
-            user: user.map(Into::into),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserResponse> for UserResponseGraphQlInput {
-    fn from(other: UserResponse) -> Self {
-        let UserResponse { user, .. } = other;
-        Self {
-            user: user.map(Into::into),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<UserResponseGraphQlInput> for UserResponse {
-    fn from(other: UserResponseGraphQlInput) -> Self {
-        let UserResponseGraphQlInput { user } = other;
-        Self {
-            user: user.map(Into::into),
-        }
     }
 }

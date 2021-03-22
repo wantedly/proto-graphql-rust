@@ -1,12 +1,86 @@
-#[derive(Clone, PartialEq, :: prost :: Message)]
+#[derive(
+    Clone,
+    PartialEq,
+    :: prost :: Message,
+    :: async_graphql :: SimpleObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "HelloRequest")]
 pub struct HelloRequest {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, :: prost :: Message)]
+#[derive(
+    Clone,
+    PartialEq,
+    :: async_graphql :: InputObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "HelloRequestInput")]
+pub struct HelloRequestInput {
+    pub name: ::prost::alloc::string::String,
+}
+#[allow(clippy::useless_conversion)]
+impl From<HelloRequest> for HelloRequestInput {
+    fn from(other: HelloRequest) -> Self {
+        let HelloRequest { name, .. } = other;
+        Self { name: name.into() }
+    }
+}
+#[allow(clippy::useless_conversion)]
+impl From<HelloRequestInput> for HelloRequest {
+    fn from(other: HelloRequestInput) -> Self {
+        let HelloRequestInput { name } = other;
+        Self { name: name.into() }
+    }
+}
+#[derive(
+    Clone,
+    PartialEq,
+    :: prost :: Message,
+    :: async_graphql :: SimpleObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "HelloReply")]
 pub struct HelloReply {
     #[prost(string, tag = "1")]
     pub message: ::prost::alloc::string::String,
+}
+#[derive(
+    Clone,
+    PartialEq,
+    :: async_graphql :: InputObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "HelloReplyInput")]
+pub struct HelloReplyInput {
+    pub message: ::prost::alloc::string::String,
+}
+#[allow(clippy::useless_conversion)]
+impl From<HelloReply> for HelloReplyInput {
+    fn from(other: HelloReply) -> Self {
+        let HelloReply { message, .. } = other;
+        Self {
+            message: message.into(),
+        }
+    }
+}
+#[allow(clippy::useless_conversion)]
+impl From<HelloReplyInput> for HelloReply {
+    fn from(other: HelloReplyInput) -> Self {
+        let HelloReplyInput { message } = other;
+        Self {
+            message: message.into(),
+        }
+    }
 }
 /// Generated client implementations.
 pub mod greeter_client {
@@ -112,8 +186,8 @@ pub mod greeter_graphql {
         pub async fn say_hello(
             &self,
             ctx: &::async_graphql::Context<'_>,
-            request: super::HelloRequestGraphQlInput,
-        ) -> ::async_graphql::Result<super::HelloReplyGraphQl> {
+            request: super::HelloRequestInput,
+        ) -> ::async_graphql::Result<super::HelloReply> {
             let mut grpc_client = ctx
                 .data::<super::greeter_client::GreeterClient<T>>()?
                 .clone();
@@ -121,7 +195,7 @@ pub mod greeter_graphql {
                 .say_hello(<super::HelloRequest>::from(request))
                 .await
                 .map_err(|e| ::async_graphql::Error::new(e.to_string()))?;
-            let response = <super::HelloReplyGraphQl>::from(response.into_inner());
+            let response = <super::HelloReply>::from(response.into_inner());
             Ok(response)
         }
     }
@@ -249,117 +323,5 @@ pub mod greeter_server {
     }
     impl<T: Greeter> tonic::transport::NamedService for GreeterServer<T> {
         const NAME: &'static str = "helloworld.Greeter";
-    }
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: SimpleObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "HelloRequest")]
-pub struct HelloRequestGraphQl {
-    pub name: ::prost::alloc::string::String,
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: InputObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "HelloRequestInput")]
-pub struct HelloRequestGraphQlInput {
-    pub name: ::prost::alloc::string::String,
-}
-#[allow(clippy::useless_conversion)]
-impl From<HelloRequest> for HelloRequestGraphQl {
-    fn from(other: HelloRequest) -> Self {
-        let HelloRequest { name, .. } = other;
-        Self { name: name.into() }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<HelloRequestGraphQl> for HelloRequest {
-    fn from(other: HelloRequestGraphQl) -> Self {
-        let HelloRequestGraphQl { name } = other;
-        Self { name: name.into() }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<HelloRequest> for HelloRequestGraphQlInput {
-    fn from(other: HelloRequest) -> Self {
-        let HelloRequest { name, .. } = other;
-        Self { name: name.into() }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<HelloRequestGraphQlInput> for HelloRequest {
-    fn from(other: HelloRequestGraphQlInput) -> Self {
-        let HelloRequestGraphQlInput { name } = other;
-        Self { name: name.into() }
-    }
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: SimpleObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "HelloReply")]
-pub struct HelloReplyGraphQl {
-    pub message: ::prost::alloc::string::String,
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: InputObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "HelloReplyInput")]
-pub struct HelloReplyGraphQlInput {
-    pub message: ::prost::alloc::string::String,
-}
-#[allow(clippy::useless_conversion)]
-impl From<HelloReply> for HelloReplyGraphQl {
-    fn from(other: HelloReply) -> Self {
-        let HelloReply { message, .. } = other;
-        Self {
-            message: message.into(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<HelloReplyGraphQl> for HelloReply {
-    fn from(other: HelloReplyGraphQl) -> Self {
-        let HelloReplyGraphQl { message } = other;
-        Self {
-            message: message.into(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<HelloReply> for HelloReplyGraphQlInput {
-    fn from(other: HelloReply) -> Self {
-        let HelloReply { message, .. } = other;
-        Self {
-            message: message.into(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<HelloReplyGraphQlInput> for HelloReply {
-    fn from(other: HelloReplyGraphQlInput) -> Self {
-        let HelloReplyGraphQlInput { message } = other;
-        Self {
-            message: message.into(),
-        }
     }
 }

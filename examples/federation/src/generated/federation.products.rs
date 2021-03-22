@@ -1,4 +1,13 @@
-#[derive(Clone, PartialEq, :: prost :: Message)]
+#[derive(
+    Clone,
+    PartialEq,
+    :: prost :: Message,
+    :: async_graphql :: SimpleObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "Product")]
 pub struct Product {
     #[prost(string, tag = "1")]
     pub upc: ::prost::alloc::string::String,
@@ -7,20 +16,171 @@ pub struct Product {
     #[prost(int32, tag = "3")]
     pub price: i32,
 }
-#[derive(Clone, PartialEq, :: prost :: Message)]
+#[derive(
+    Clone,
+    PartialEq,
+    :: async_graphql :: InputObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "ProductInput")]
+pub struct ProductInput {
+    pub upc: ::prost::alloc::string::String,
+    pub name: ::prost::alloc::string::String,
+    pub price: i32,
+}
+#[allow(clippy::useless_conversion)]
+impl From<Product> for ProductInput {
+    fn from(other: Product) -> Self {
+        let Product {
+            upc, name, price, ..
+        } = other;
+        Self {
+            upc: upc.into(),
+            name: name.into(),
+            price: price.into(),
+        }
+    }
+}
+#[allow(clippy::useless_conversion)]
+impl From<ProductInput> for Product {
+    fn from(other: ProductInput) -> Self {
+        let ProductInput { upc, name, price } = other;
+        Self {
+            upc: upc.into(),
+            name: name.into(),
+            price: price.into(),
+        }
+    }
+}
+#[derive(
+    Clone,
+    PartialEq,
+    :: prost :: Message,
+    :: async_graphql :: SimpleObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "ProductRequest")]
 pub struct ProductRequest {
     #[prost(string, tag = "1")]
     pub upc: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, :: prost :: Message)]
+#[derive(
+    Clone,
+    PartialEq,
+    :: async_graphql :: InputObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "ProductRequestInput")]
+pub struct ProductRequestInput {
+    pub upc: ::prost::alloc::string::String,
+}
+#[allow(clippy::useless_conversion)]
+impl From<ProductRequest> for ProductRequestInput {
+    fn from(other: ProductRequest) -> Self {
+        let ProductRequest { upc, .. } = other;
+        Self { upc: upc.into() }
+    }
+}
+#[allow(clippy::useless_conversion)]
+impl From<ProductRequestInput> for ProductRequest {
+    fn from(other: ProductRequestInput) -> Self {
+        let ProductRequestInput { upc } = other;
+        Self { upc: upc.into() }
+    }
+}
+#[derive(
+    Clone,
+    PartialEq,
+    :: prost :: Message,
+    :: async_graphql :: SimpleObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "ProductsResponse")]
 pub struct ProductsResponse {
     #[prost(message, repeated, tag = "1")]
     pub products: ::prost::alloc::vec::Vec<Product>,
 }
-#[derive(Clone, PartialEq, :: prost :: Message)]
+#[derive(
+    Clone,
+    PartialEq,
+    :: async_graphql :: InputObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "ProductsResponseInput")]
+pub struct ProductsResponseInput {
+    pub products: ::prost::alloc::vec::Vec<ProductInput>,
+}
+#[allow(clippy::useless_conversion)]
+impl From<ProductsResponse> for ProductsResponseInput {
+    fn from(other: ProductsResponse) -> Self {
+        let ProductsResponse { products, .. } = other;
+        Self {
+            products: products.into_iter().map(Into::into).collect(),
+        }
+    }
+}
+#[allow(clippy::useless_conversion)]
+impl From<ProductsResponseInput> for ProductsResponse {
+    fn from(other: ProductsResponseInput) -> Self {
+        let ProductsResponseInput { products } = other;
+        Self {
+            products: products.into_iter().map(Into::into).collect(),
+        }
+    }
+}
+#[derive(
+    Clone,
+    PartialEq,
+    :: prost :: Message,
+    :: async_graphql :: SimpleObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "ProductResponse")]
 pub struct ProductResponse {
     #[prost(message, optional, tag = "1")]
     pub product: ::core::option::Option<Product>,
+}
+#[derive(
+    Clone,
+    PartialEq,
+    :: async_graphql :: InputObject,
+    :: proto_graphql :: serde :: Serialize,
+    :: proto_graphql :: serde :: Deserialize,
+)]
+#[serde(crate = "::proto_graphql::serde")]
+#[graphql(name = "ProductResponseInput")]
+pub struct ProductResponseInput {
+    pub product: ::core::option::Option<ProductInput>,
+}
+#[allow(clippy::useless_conversion)]
+impl From<ProductResponse> for ProductResponseInput {
+    fn from(other: ProductResponse) -> Self {
+        let ProductResponse { product, .. } = other;
+        Self {
+            product: product.map(Into::into),
+        }
+    }
+}
+#[allow(clippy::useless_conversion)]
+impl From<ProductResponseInput> for ProductResponse {
+    fn from(other: ProductResponseInput) -> Self {
+        let ProductResponseInput { product } = other;
+        Self {
+            product: product.map(Into::into),
+        }
+    }
 }
 /// Generated client implementations.
 pub mod products_client {
@@ -147,7 +307,7 @@ pub mod products_graphql {
         pub async fn top_products(
             &self,
             ctx: &::async_graphql::Context<'_>,
-        ) -> ::async_graphql::Result<::prost::alloc::vec::Vec<super::ProductGraphQl>> {
+        ) -> ::async_graphql::Result<::prost::alloc::vec::Vec<super::Product>> {
             let mut grpc_client = ctx
                 .data::<super::products_client::ProductsClient<T>>()?
                 .clone();
@@ -155,7 +315,7 @@ pub mod products_graphql {
                 .top_products(())
                 .await
                 .map_err(|e| ::async_graphql::Error::new(e.to_string()))?;
-            let response = <super::ProductsResponseGraphQl>::from(response.into_inner());
+            let response = <super::ProductsResponse>::from(response.into_inner());
             Ok(response.products)
         }
         /// graphql: entity, inputs(string upc), output(optional Product product)
@@ -164,8 +324,8 @@ pub mod products_graphql {
             &self,
             ctx: &::async_graphql::Context<'_>,
             upc: ::prost::alloc::string::String,
-        ) -> ::async_graphql::Result<::core::option::Option<super::ProductGraphQl>> {
-            let request = super::ProductRequestGraphQlInput { upc };
+        ) -> ::async_graphql::Result<::core::option::Option<super::Product>> {
+            let request = super::ProductRequestInput { upc };
             let mut grpc_client = ctx
                 .data::<super::products_client::ProductsClient<T>>()?
                 .clone();
@@ -173,7 +333,7 @@ pub mod products_graphql {
                 .find_product_by_upc(<super::ProductRequest>::from(request))
                 .await
                 .map_err(|e| ::async_graphql::Error::new(e.to_string()))?;
-            let response = <super::ProductResponseGraphQl>::from(response.into_inner());
+            let response = <super::ProductResponse>::from(response.into_inner());
             Ok(response.product)
         }
     }
@@ -336,253 +496,5 @@ pub mod products_server {
     }
     impl<T: Products> tonic::transport::NamedService for ProductsServer<T> {
         const NAME: &'static str = "federation.products.Products";
-    }
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: SimpleObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "Product")]
-pub struct ProductGraphQl {
-    pub upc: ::prost::alloc::string::String,
-    pub name: ::prost::alloc::string::String,
-    pub price: i32,
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: InputObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "ProductInput")]
-pub struct ProductGraphQlInput {
-    pub upc: ::prost::alloc::string::String,
-    pub name: ::prost::alloc::string::String,
-    pub price: i32,
-}
-#[allow(clippy::useless_conversion)]
-impl From<Product> for ProductGraphQl {
-    fn from(other: Product) -> Self {
-        let Product {
-            upc, name, price, ..
-        } = other;
-        Self {
-            upc: upc.into(),
-            name: name.into(),
-            price: price.into(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductGraphQl> for Product {
-    fn from(other: ProductGraphQl) -> Self {
-        let ProductGraphQl { upc, name, price } = other;
-        Self {
-            upc: upc.into(),
-            name: name.into(),
-            price: price.into(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<Product> for ProductGraphQlInput {
-    fn from(other: Product) -> Self {
-        let Product {
-            upc, name, price, ..
-        } = other;
-        Self {
-            upc: upc.into(),
-            name: name.into(),
-            price: price.into(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductGraphQlInput> for Product {
-    fn from(other: ProductGraphQlInput) -> Self {
-        let ProductGraphQlInput { upc, name, price } = other;
-        Self {
-            upc: upc.into(),
-            name: name.into(),
-            price: price.into(),
-        }
-    }
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: SimpleObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "ProductRequest")]
-pub struct ProductRequestGraphQl {
-    pub upc: ::prost::alloc::string::String,
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: InputObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "ProductRequestInput")]
-pub struct ProductRequestGraphQlInput {
-    pub upc: ::prost::alloc::string::String,
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductRequest> for ProductRequestGraphQl {
-    fn from(other: ProductRequest) -> Self {
-        let ProductRequest { upc, .. } = other;
-        Self { upc: upc.into() }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductRequestGraphQl> for ProductRequest {
-    fn from(other: ProductRequestGraphQl) -> Self {
-        let ProductRequestGraphQl { upc } = other;
-        Self { upc: upc.into() }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductRequest> for ProductRequestGraphQlInput {
-    fn from(other: ProductRequest) -> Self {
-        let ProductRequest { upc, .. } = other;
-        Self { upc: upc.into() }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductRequestGraphQlInput> for ProductRequest {
-    fn from(other: ProductRequestGraphQlInput) -> Self {
-        let ProductRequestGraphQlInput { upc } = other;
-        Self { upc: upc.into() }
-    }
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: SimpleObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "ProductsResponse")]
-pub struct ProductsResponseGraphQl {
-    pub products: ::prost::alloc::vec::Vec<ProductGraphQl>,
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: InputObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "ProductsResponseInput")]
-pub struct ProductsResponseGraphQlInput {
-    pub products: ::prost::alloc::vec::Vec<ProductGraphQlInput>,
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductsResponse> for ProductsResponseGraphQl {
-    fn from(other: ProductsResponse) -> Self {
-        let ProductsResponse { products, .. } = other;
-        Self {
-            products: products.into_iter().map(Into::into).collect(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductsResponseGraphQl> for ProductsResponse {
-    fn from(other: ProductsResponseGraphQl) -> Self {
-        let ProductsResponseGraphQl { products } = other;
-        Self {
-            products: products.into_iter().map(Into::into).collect(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductsResponse> for ProductsResponseGraphQlInput {
-    fn from(other: ProductsResponse) -> Self {
-        let ProductsResponse { products, .. } = other;
-        Self {
-            products: products.into_iter().map(Into::into).collect(),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductsResponseGraphQlInput> for ProductsResponse {
-    fn from(other: ProductsResponseGraphQlInput) -> Self {
-        let ProductsResponseGraphQlInput { products } = other;
-        Self {
-            products: products.into_iter().map(Into::into).collect(),
-        }
-    }
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: SimpleObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "ProductResponse")]
-pub struct ProductResponseGraphQl {
-    pub product: ::core::option::Option<ProductGraphQl>,
-}
-#[derive(
-    Clone,
-    PartialEq,
-    :: async_graphql :: InputObject,
-    :: proto_graphql :: serde :: Serialize,
-    :: proto_graphql :: serde :: Deserialize,
-)]
-#[serde(crate = "::proto_graphql::serde")]
-#[graphql(name = "ProductResponseInput")]
-pub struct ProductResponseGraphQlInput {
-    pub product: ::core::option::Option<ProductGraphQlInput>,
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductResponse> for ProductResponseGraphQl {
-    fn from(other: ProductResponse) -> Self {
-        let ProductResponse { product, .. } = other;
-        Self {
-            product: product.map(Into::into),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductResponseGraphQl> for ProductResponse {
-    fn from(other: ProductResponseGraphQl) -> Self {
-        let ProductResponseGraphQl { product } = other;
-        Self {
-            product: product.map(Into::into),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductResponse> for ProductResponseGraphQlInput {
-    fn from(other: ProductResponse) -> Self {
-        let ProductResponse { product, .. } = other;
-        Self {
-            product: product.map(Into::into),
-        }
-    }
-}
-#[allow(clippy::useless_conversion)]
-impl From<ProductResponseGraphQlInput> for ProductResponse {
-    fn from(other: ProductResponseGraphQlInput) -> Self {
-        let ProductResponseGraphQlInput { product } = other;
-        Self {
-            product: product.map(Into::into),
-        }
     }
 }

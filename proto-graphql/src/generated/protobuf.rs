@@ -25,12 +25,12 @@ pub mod descriptor_proto {
     )]
     #[serde(crate = "::proto_graphql::serde")]
     #[graphql(name = "DescriptorProtoExtensionRangeInput")]
-    pub struct ExtensionRangeGraphQlInput {
+    pub struct ExtensionRangeInput {
         /// Inclusive.
         pub start: ::core::option::Option<i32>,
         /// Exclusive.
         pub end: ::core::option::Option<i32>,
-        pub options: ::core::option::Option<super::ExtensionRangeOptionsGraphQlInput>,
+        pub options: ::core::option::Option<super::ExtensionRangeOptionsInput>,
     }
     #[allow(clippy::useless_conversion)]
     impl From<ExtensionRange> for ExtensionRangeGraphQl {
@@ -64,7 +64,7 @@ pub mod descriptor_proto {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<ExtensionRange> for ExtensionRangeGraphQlInput {
+    impl From<ExtensionRange> for ExtensionRangeInput {
         fn from(other: ExtensionRange) -> Self {
             let ExtensionRange {
                 start,
@@ -80,9 +80,9 @@ pub mod descriptor_proto {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<ExtensionRangeGraphQlInput> for ExtensionRange {
-        fn from(other: ExtensionRangeGraphQlInput) -> Self {
-            let ExtensionRangeGraphQlInput {
+    impl From<ExtensionRangeInput> for ExtensionRange {
+        fn from(other: ExtensionRangeInput) -> Self {
+            let ExtensionRangeInput {
                 start,
                 end,
                 options,
@@ -124,7 +124,7 @@ pub mod descriptor_proto {
     )]
     #[serde(crate = "::proto_graphql::serde")]
     #[graphql(name = "DescriptorProtoReservedRangeInput")]
-    pub struct ReservedRangeGraphQlInput {
+    pub struct ReservedRangeInput {
         /// Inclusive.
         pub start: ::core::option::Option<i32>,
         /// Exclusive.
@@ -151,7 +151,7 @@ pub mod descriptor_proto {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<ReservedRange> for ReservedRangeGraphQlInput {
+    impl From<ReservedRange> for ReservedRangeInput {
         fn from(other: ReservedRange) -> Self {
             let ReservedRange { start, end, .. } = other;
             Self {
@@ -161,9 +161,9 @@ pub mod descriptor_proto {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<ReservedRangeGraphQlInput> for ReservedRange {
-        fn from(other: ReservedRangeGraphQlInput) -> Self {
-            let ReservedRangeGraphQlInput { start, end } = other;
+    impl From<ReservedRangeInput> for ReservedRange {
+        fn from(other: ReservedRangeInput) -> Self {
+            let ReservedRangeInput { start, end } = other;
             Self {
                 start: start.map(Into::into),
                 end: end.map(Into::into),
@@ -268,7 +268,7 @@ pub mod field_descriptor_proto {
         /// Uses ZigZag encoding.
         Sint64 = 18,
     }
-    pub use self::TypeGraphQl as TypeGraphQlInput;
+    pub use self::TypeGraphQl as TypeInput;
     #[allow(clippy::useless_conversion)]
     impl From<Label> for LabelGraphQl {
         fn from(other: Label) -> Self {
@@ -304,7 +304,7 @@ pub mod field_descriptor_proto {
         Required = 2,
         Repeated = 3,
     }
-    pub use self::LabelGraphQl as LabelGraphQlInput;
+    pub use self::LabelGraphQl as LabelInput;
     #[allow(unused_imports)]
     pub use ::prost_types::field_descriptor_proto::*;
 }
@@ -346,7 +346,7 @@ pub mod enum_descriptor_proto {
     )]
     #[serde(crate = "::proto_graphql::serde")]
     #[graphql(name = "EnumDescriptorProtoEnumReservedRangeInput")]
-    pub struct EnumReservedRangeGraphQlInput {
+    pub struct EnumReservedRangeInput {
         /// Inclusive.
         pub start: ::core::option::Option<i32>,
         /// Inclusive.
@@ -373,7 +373,7 @@ pub mod enum_descriptor_proto {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<EnumReservedRange> for EnumReservedRangeGraphQlInput {
+    impl From<EnumReservedRange> for EnumReservedRangeInput {
         fn from(other: EnumReservedRange) -> Self {
             let EnumReservedRange { start, end, .. } = other;
             Self {
@@ -383,9 +383,9 @@ pub mod enum_descriptor_proto {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<EnumReservedRangeGraphQlInput> for EnumReservedRange {
-        fn from(other: EnumReservedRangeGraphQlInput) -> Self {
-            let EnumReservedRangeGraphQlInput { start, end } = other;
+    impl From<EnumReservedRangeInput> for EnumReservedRange {
+        fn from(other: EnumReservedRangeInput) -> Self {
+            let EnumReservedRangeInput { start, end } = other;
             Self {
                 start: start.map(Into::into),
                 end: end.map(Into::into),
@@ -437,7 +437,7 @@ pub mod file_options {
         /// Generate code using MessageLite and the lite runtime.
         LiteRuntime = 3,
     }
-    pub use self::OptimizeModeGraphQl as OptimizeModeGraphQlInput;
+    pub use self::OptimizeModeGraphQl as OptimizeModeInput;
     #[allow(unused_imports)]
     pub use ::prost_types::file_options::*;
 }
@@ -478,7 +478,7 @@ pub mod field_options {
         Cord = 1,
         StringPiece = 2,
     }
-    pub use self::CTypeGraphQl as CTypeGraphQlInput;
+    pub use self::CTypeGraphQl as CTypeInput;
     #[allow(clippy::useless_conversion)]
     impl From<JsType> for JsTypeGraphQl {
         fn from(other: JsType) -> Self {
@@ -516,7 +516,7 @@ pub mod field_options {
         /// Use JavaScript numbers.
         JsNumber = 2,
     }
-    pub use self::JsTypeGraphQl as JsTypeGraphQlInput;
+    pub use self::JsTypeGraphQl as JsTypeInput;
     #[allow(unused_imports)]
     pub use ::prost_types::field_options::*;
 }
@@ -561,7 +561,7 @@ pub mod method_options {
         /// idempotent, but may have side effects
         Idempotent = 2,
     }
-    pub use self::IdempotencyLevelGraphQl as IdempotencyLevelGraphQlInput;
+    pub use self::IdempotencyLevelGraphQl as IdempotencyLevelInput;
     #[allow(unused_imports)]
     pub use ::prost_types::method_options::*;
 }
@@ -599,7 +599,7 @@ pub mod uninterpreted_option {
     )]
     #[serde(crate = "::proto_graphql::serde")]
     #[graphql(name = "UninterpretedOptionNamePartInput")]
-    pub struct NamePartGraphQlInput {
+    pub struct NamePartInput {
         pub name_part: ::prost::alloc::string::String,
         pub is_extension: bool,
     }
@@ -631,7 +631,7 @@ pub mod uninterpreted_option {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<NamePart> for NamePartGraphQlInput {
+    impl From<NamePart> for NamePartInput {
         fn from(other: NamePart) -> Self {
             let NamePart {
                 name_part,
@@ -645,9 +645,9 @@ pub mod uninterpreted_option {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<NamePartGraphQlInput> for NamePart {
-        fn from(other: NamePartGraphQlInput) -> Self {
-            let NamePartGraphQlInput {
+    impl From<NamePartInput> for NamePart {
+        fn from(other: NamePartInput) -> Self {
+            let NamePartInput {
                 name_part,
                 is_extension,
             } = other;
@@ -762,7 +762,7 @@ pub mod source_code_info {
     )]
     #[serde(crate = "::proto_graphql::serde")]
     #[graphql(name = "SourceCodeInfoLocationInput")]
-    pub struct LocationGraphQlInput {
+    pub struct LocationInput {
         /// Identifies which part of the FileDescriptorProto was defined at this
         /// location.
         ///
@@ -890,7 +890,7 @@ pub mod source_code_info {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<Location> for LocationGraphQlInput {
+    impl From<Location> for LocationInput {
         fn from(other: Location) -> Self {
             let Location {
                 path,
@@ -913,9 +913,9 @@ pub mod source_code_info {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<LocationGraphQlInput> for Location {
-        fn from(other: LocationGraphQlInput) -> Self {
-            let LocationGraphQlInput {
+    impl From<LocationInput> for Location {
+        fn from(other: LocationInput) -> Self {
+            let LocationInput {
                 path,
                 span,
                 leading_comments,
@@ -971,7 +971,7 @@ pub mod generated_code_info {
     )]
     #[serde(crate = "::proto_graphql::serde")]
     #[graphql(name = "GeneratedCodeInfoAnnotationInput")]
-    pub struct AnnotationGraphQlInput {
+    pub struct AnnotationInput {
         /// Identifies the element in the original source .proto file. This field
         /// is formatted the same as SourceCodeInfo.Location.path.
         pub path: ::prost::alloc::vec::Vec<i32>,
@@ -1021,7 +1021,7 @@ pub mod generated_code_info {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<Annotation> for AnnotationGraphQlInput {
+    impl From<Annotation> for AnnotationInput {
         fn from(other: Annotation) -> Self {
             let Annotation {
                 path,
@@ -1039,9 +1039,9 @@ pub mod generated_code_info {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<AnnotationGraphQlInput> for Annotation {
-        fn from(other: AnnotationGraphQlInput) -> Self {
-            let AnnotationGraphQlInput {
+    impl From<AnnotationInput> for Annotation {
+        fn from(other: AnnotationInput) -> Self {
+            let AnnotationInput {
                 path,
                 source_file,
                 begin,
@@ -1162,7 +1162,7 @@ pub mod field {
         /// Field type sint64.
         TypeSint64 = 18,
     }
-    pub use self::KindGraphQl as KindGraphQlInput;
+    pub use self::KindGraphQl as KindInput;
     #[allow(clippy::useless_conversion)]
     impl From<Cardinality> for CardinalityGraphQl {
         fn from(other: Cardinality) -> Self {
@@ -1205,7 +1205,7 @@ pub mod field {
         /// For repeated fields.
         Repeated = 3,
     }
-    pub use self::CardinalityGraphQl as CardinalityGraphQlInput;
+    pub use self::CardinalityGraphQl as CardinalityInput;
     #[allow(unused_imports)]
     pub use ::prost_types::field::*;
 }
@@ -1317,16 +1317,16 @@ pub mod value {
     )]
     #[serde(crate = "::proto_graphql::serde")]
     #[graphql(name = "ValueKindInput")]
-    pub struct KindGraphQlInput {
+    pub struct KindInput {
         null_value: ::core::option::Option<i32>,
         number_value: ::core::option::Option<f64>,
         string_value: ::core::option::Option<::prost::alloc::string::String>,
         bool_value: ::core::option::Option<bool>,
-        struct_value: ::core::option::Option<super::StructGraphQlInput>,
-        list_value: ::core::option::Option<super::ListValueGraphQlInput>,
+        struct_value: ::core::option::Option<super::StructInput>,
+        list_value: ::core::option::Option<super::ListValueInput>,
     }
     #[allow(clippy::useless_conversion)]
-    impl From<Kind> for KindGraphQlInput {
+    impl From<Kind> for KindInput {
         fn from(other: Kind) -> Self {
             match other {
                 Kind::NullValue(null_value) => Self {
@@ -1381,10 +1381,10 @@ pub mod value {
         }
     }
     #[allow(clippy::useless_conversion)]
-    impl From<KindGraphQlInput> for Kind {
-        fn from(other: KindGraphQlInput) -> Self {
+    impl From<KindInput> for Kind {
+        fn from(other: KindInput) -> Self {
             match other {
-                KindGraphQlInput {
+                KindInput {
                     null_value: ::core::option::Option::Some(null_value),
                     number_value: ::core::option::Option::None,
                     string_value: ::core::option::Option::None,
@@ -1392,7 +1392,7 @@ pub mod value {
                     struct_value: ::core::option::Option::None,
                     list_value: ::core::option::Option::None,
                 } => Self::NullValue(null_value.into()),
-                KindGraphQlInput {
+                KindInput {
                     number_value: ::core::option::Option::Some(number_value),
                     null_value: ::core::option::Option::None,
                     string_value: ::core::option::Option::None,
@@ -1400,7 +1400,7 @@ pub mod value {
                     struct_value: ::core::option::Option::None,
                     list_value: ::core::option::Option::None,
                 } => Self::NumberValue(number_value.into()),
-                KindGraphQlInput {
+                KindInput {
                     string_value: ::core::option::Option::Some(string_value),
                     null_value: ::core::option::Option::None,
                     number_value: ::core::option::Option::None,
@@ -1408,7 +1408,7 @@ pub mod value {
                     struct_value: ::core::option::Option::None,
                     list_value: ::core::option::Option::None,
                 } => Self::StringValue(string_value.into()),
-                KindGraphQlInput {
+                KindInput {
                     bool_value: ::core::option::Option::Some(bool_value),
                     null_value: ::core::option::Option::None,
                     number_value: ::core::option::Option::None,
@@ -1416,7 +1416,7 @@ pub mod value {
                     struct_value: ::core::option::Option::None,
                     list_value: ::core::option::Option::None,
                 } => Self::BoolValue(bool_value.into()),
-                KindGraphQlInput {
+                KindInput {
                     struct_value: ::core::option::Option::Some(struct_value),
                     null_value: ::core::option::Option::None,
                     number_value: ::core::option::Option::None,
@@ -1424,7 +1424,7 @@ pub mod value {
                     bool_value: ::core::option::Option::None,
                     list_value: ::core::option::Option::None,
                 } => Self::StructValue(struct_value.into()),
-                KindGraphQlInput {
+                KindInput {
                     list_value: ::core::option::Option::Some(list_value),
                     null_value: ::core::option::Option::None,
                     number_value: ::core::option::Option::None,
@@ -1514,8 +1514,8 @@ pub struct FileDescriptorSetGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "FileDescriptorSetInput")]
-pub struct FileDescriptorSetGraphQlInput {
-    pub file: ::prost::alloc::vec::Vec<FileDescriptorProtoGraphQlInput>,
+pub struct FileDescriptorSetInput {
+    pub file: ::prost::alloc::vec::Vec<FileDescriptorProtoInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<FileDescriptorSet> for FileDescriptorSetGraphQl {
@@ -1536,7 +1536,7 @@ impl From<FileDescriptorSetGraphQl> for FileDescriptorSet {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FileDescriptorSet> for FileDescriptorSetGraphQlInput {
+impl From<FileDescriptorSet> for FileDescriptorSetInput {
     fn from(other: FileDescriptorSet) -> Self {
         let FileDescriptorSet { file, .. } = other;
         Self {
@@ -1545,9 +1545,9 @@ impl From<FileDescriptorSet> for FileDescriptorSetGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FileDescriptorSetGraphQlInput> for FileDescriptorSet {
-    fn from(other: FileDescriptorSetGraphQlInput) -> Self {
-        let FileDescriptorSetGraphQlInput { file } = other;
+impl From<FileDescriptorSetInput> for FileDescriptorSet {
+    fn from(other: FileDescriptorSetInput) -> Self {
+        let FileDescriptorSetInput { file } = other;
         Self {
             file: file.into_iter().map(Into::into).collect(),
         }
@@ -1600,7 +1600,7 @@ pub struct FileDescriptorProtoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "FileDescriptorProtoInput")]
-pub struct FileDescriptorProtoGraphQlInput {
+pub struct FileDescriptorProtoInput {
     /// file name, relative to root of source tree
     pub name: ::core::option::Option<::prost::alloc::string::String>,
     /// e.g. "foo", "foo.bar", etc.
@@ -1613,16 +1613,16 @@ pub struct FileDescriptorProtoGraphQlInput {
     /// For Google-internal migration only. Do not use.
     pub weak_dependency: ::prost::alloc::vec::Vec<i32>,
     /// All top-level definitions in this file.
-    pub message_type: ::prost::alloc::vec::Vec<DescriptorProtoGraphQlInput>,
-    pub enum_type: ::prost::alloc::vec::Vec<EnumDescriptorProtoGraphQlInput>,
-    pub service: ::prost::alloc::vec::Vec<ServiceDescriptorProtoGraphQlInput>,
-    pub extension: ::prost::alloc::vec::Vec<FieldDescriptorProtoGraphQlInput>,
-    pub options: ::core::option::Option<FileOptionsGraphQlInput>,
+    pub message_type: ::prost::alloc::vec::Vec<DescriptorProtoInput>,
+    pub enum_type: ::prost::alloc::vec::Vec<EnumDescriptorProtoInput>,
+    pub service: ::prost::alloc::vec::Vec<ServiceDescriptorProtoInput>,
+    pub extension: ::prost::alloc::vec::Vec<FieldDescriptorProtoInput>,
+    pub options: ::core::option::Option<FileOptionsInput>,
     /// This field contains optional information about the original source code.
     /// You may safely remove this entire field without harming runtime
     /// functionality of the descriptors -- the information is needed only by
     /// development tools.
-    pub source_code_info: ::core::option::Option<SourceCodeInfoGraphQlInput>,
+    pub source_code_info: ::core::option::Option<SourceCodeInfoInput>,
     /// The syntax of the proto file.
     /// The supported values are "proto2" and "proto3".
     pub syntax: ::core::option::Option<::prost::alloc::string::String>,
@@ -1695,7 +1695,7 @@ impl From<FileDescriptorProtoGraphQl> for FileDescriptorProto {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FileDescriptorProto> for FileDescriptorProtoGraphQlInput {
+impl From<FileDescriptorProto> for FileDescriptorProtoInput {
     fn from(other: FileDescriptorProto) -> Self {
         let FileDescriptorProto {
             name,
@@ -1729,9 +1729,9 @@ impl From<FileDescriptorProto> for FileDescriptorProtoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FileDescriptorProtoGraphQlInput> for FileDescriptorProto {
-    fn from(other: FileDescriptorProtoGraphQlInput) -> Self {
-        let FileDescriptorProtoGraphQlInput {
+impl From<FileDescriptorProtoInput> for FileDescriptorProto {
+    fn from(other: FileDescriptorProtoInput) -> Self {
+        let FileDescriptorProtoInput {
             name,
             package,
             dependency,
@@ -1795,16 +1795,16 @@ pub struct DescriptorProtoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "DescriptorProtoInput")]
-pub struct DescriptorProtoGraphQlInput {
+pub struct DescriptorProtoInput {
     pub name: ::core::option::Option<::prost::alloc::string::String>,
-    pub field: ::prost::alloc::vec::Vec<FieldDescriptorProtoGraphQlInput>,
-    pub extension: ::prost::alloc::vec::Vec<FieldDescriptorProtoGraphQlInput>,
-    pub nested_type: ::prost::alloc::vec::Vec<DescriptorProtoGraphQlInput>,
-    pub enum_type: ::prost::alloc::vec::Vec<EnumDescriptorProtoGraphQlInput>,
-    pub extension_range: ::prost::alloc::vec::Vec<descriptor_proto::ExtensionRangeGraphQlInput>,
-    pub oneof_decl: ::prost::alloc::vec::Vec<OneofDescriptorProtoGraphQlInput>,
-    pub options: ::core::option::Option<MessageOptionsGraphQlInput>,
-    pub reserved_range: ::prost::alloc::vec::Vec<descriptor_proto::ReservedRangeGraphQlInput>,
+    pub field: ::prost::alloc::vec::Vec<FieldDescriptorProtoInput>,
+    pub extension: ::prost::alloc::vec::Vec<FieldDescriptorProtoInput>,
+    pub nested_type: ::prost::alloc::vec::Vec<DescriptorProtoInput>,
+    pub enum_type: ::prost::alloc::vec::Vec<EnumDescriptorProtoInput>,
+    pub extension_range: ::prost::alloc::vec::Vec<descriptor_proto::ExtensionRangeInput>,
+    pub oneof_decl: ::prost::alloc::vec::Vec<OneofDescriptorProtoInput>,
+    pub options: ::core::option::Option<MessageOptionsInput>,
+    pub reserved_range: ::prost::alloc::vec::Vec<descriptor_proto::ReservedRangeInput>,
     /// Reserved field names, which may not be used by fields in the same message.
     /// A given name may only be reserved once.
     pub reserved_name: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -1869,7 +1869,7 @@ impl From<DescriptorProtoGraphQl> for DescriptorProto {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<DescriptorProto> for DescriptorProtoGraphQlInput {
+impl From<DescriptorProto> for DescriptorProtoInput {
     fn from(other: DescriptorProto) -> Self {
         let DescriptorProto {
             name,
@@ -1899,9 +1899,9 @@ impl From<DescriptorProto> for DescriptorProtoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<DescriptorProtoGraphQlInput> for DescriptorProto {
-    fn from(other: DescriptorProtoGraphQlInput) -> Self {
-        let DescriptorProtoGraphQlInput {
+impl From<DescriptorProtoInput> for DescriptorProto {
+    fn from(other: DescriptorProtoInput) -> Self {
+        let DescriptorProtoInput {
             name,
             field,
             extension,
@@ -1949,9 +1949,9 @@ pub struct ExtensionRangeOptionsGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "ExtensionRangeOptionsInput")]
-pub struct ExtensionRangeOptionsGraphQlInput {
+pub struct ExtensionRangeOptionsInput {
     /// The parser stores options it doesn't recognize here. See above.
-    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionGraphQlInput>,
+    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<ExtensionRangeOptions> for ExtensionRangeOptionsGraphQl {
@@ -1977,7 +1977,7 @@ impl From<ExtensionRangeOptionsGraphQl> for ExtensionRangeOptions {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ExtensionRangeOptions> for ExtensionRangeOptionsGraphQlInput {
+impl From<ExtensionRangeOptions> for ExtensionRangeOptionsInput {
     fn from(other: ExtensionRangeOptions) -> Self {
         let ExtensionRangeOptions {
             uninterpreted_option,
@@ -1989,9 +1989,9 @@ impl From<ExtensionRangeOptions> for ExtensionRangeOptionsGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ExtensionRangeOptionsGraphQlInput> for ExtensionRangeOptions {
-    fn from(other: ExtensionRangeOptionsGraphQlInput) -> Self {
-        let ExtensionRangeOptionsGraphQlInput {
+impl From<ExtensionRangeOptionsInput> for ExtensionRangeOptions {
+    fn from(other: ExtensionRangeOptionsInput) -> Self {
+        let ExtensionRangeOptionsInput {
             uninterpreted_option,
         } = other;
         Self {
@@ -2073,13 +2073,13 @@ pub struct FieldDescriptorProtoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "FieldDescriptorProtoInput")]
-pub struct FieldDescriptorProtoGraphQlInput {
+pub struct FieldDescriptorProtoInput {
     pub name: ::core::option::Option<::prost::alloc::string::String>,
     pub number: ::core::option::Option<i32>,
-    pub label: ::core::option::Option<field_descriptor_proto::LabelGraphQlInput>,
+    pub label: ::core::option::Option<field_descriptor_proto::LabelInput>,
     /// If type_name is set, this need not be set.  If both this and type_name
     /// are set, this must be one of TYPE_ENUM, TYPE_MESSAGE or TYPE_GROUP.
-    pub r#type: ::core::option::Option<field_descriptor_proto::TypeGraphQlInput>,
+    pub r#type: ::core::option::Option<field_descriptor_proto::TypeInput>,
     /// For message and enum types, this is the name of the type.  If the name
     /// starts with a '.', it is fully-qualified.  Otherwise, C++-like scoping
     /// rules are used to find the type (i.e. first the nested types within this
@@ -2103,7 +2103,7 @@ pub struct FieldDescriptorProtoGraphQlInput {
     /// will be used. Otherwise, it's deduced from the field's name by converting
     /// it to camelCase.
     pub json_name: ::core::option::Option<::prost::alloc::string::String>,
-    pub options: ::core::option::Option<FieldOptionsGraphQlInput>,
+    pub options: ::core::option::Option<FieldOptionsInput>,
     /// If true, this is a proto3 "optional". When a proto3 field is optional, it
     /// tracks presence regardless of field type.
     ///
@@ -2199,7 +2199,7 @@ impl From<FieldDescriptorProtoGraphQl> for FieldDescriptorProto {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FieldDescriptorProto> for FieldDescriptorProtoGraphQlInput {
+impl From<FieldDescriptorProto> for FieldDescriptorProtoInput {
     fn from(other: FieldDescriptorProto) -> Self {
         let label = if other.label.is_some() {
             Some(other.label())
@@ -2239,9 +2239,9 @@ impl From<FieldDescriptorProto> for FieldDescriptorProtoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FieldDescriptorProtoGraphQlInput> for FieldDescriptorProto {
-    fn from(other: FieldDescriptorProtoGraphQlInput) -> Self {
-        let FieldDescriptorProtoGraphQlInput {
+impl From<FieldDescriptorProtoInput> for FieldDescriptorProto {
+    fn from(other: FieldDescriptorProtoInput) -> Self {
+        let FieldDescriptorProtoInput {
             name,
             number,
             label,
@@ -2293,9 +2293,9 @@ pub struct OneofDescriptorProtoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "OneofDescriptorProtoInput")]
-pub struct OneofDescriptorProtoGraphQlInput {
+pub struct OneofDescriptorProtoInput {
     pub name: ::core::option::Option<::prost::alloc::string::String>,
-    pub options: ::core::option::Option<OneofOptionsGraphQlInput>,
+    pub options: ::core::option::Option<OneofOptionsInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<OneofDescriptorProto> for OneofDescriptorProtoGraphQl {
@@ -2318,7 +2318,7 @@ impl From<OneofDescriptorProtoGraphQl> for OneofDescriptorProto {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<OneofDescriptorProto> for OneofDescriptorProtoGraphQlInput {
+impl From<OneofDescriptorProto> for OneofDescriptorProtoInput {
     fn from(other: OneofDescriptorProto) -> Self {
         let OneofDescriptorProto { name, options, .. } = other;
         Self {
@@ -2328,9 +2328,9 @@ impl From<OneofDescriptorProto> for OneofDescriptorProtoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<OneofDescriptorProtoGraphQlInput> for OneofDescriptorProto {
-    fn from(other: OneofDescriptorProtoGraphQlInput) -> Self {
-        let OneofDescriptorProtoGraphQlInput { name, options } = other;
+impl From<OneofDescriptorProtoInput> for OneofDescriptorProto {
+    fn from(other: OneofDescriptorProtoInput) -> Self {
+        let OneofDescriptorProtoInput { name, options } = other;
         Self {
             name: name.map(Into::into),
             options: options.map(Into::into),
@@ -2369,15 +2369,14 @@ pub struct EnumDescriptorProtoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "EnumDescriptorProtoInput")]
-pub struct EnumDescriptorProtoGraphQlInput {
+pub struct EnumDescriptorProtoInput {
     pub name: ::core::option::Option<::prost::alloc::string::String>,
-    pub value: ::prost::alloc::vec::Vec<EnumValueDescriptorProtoGraphQlInput>,
-    pub options: ::core::option::Option<EnumOptionsGraphQlInput>,
+    pub value: ::prost::alloc::vec::Vec<EnumValueDescriptorProtoInput>,
+    pub options: ::core::option::Option<EnumOptionsInput>,
     /// Range of reserved numeric values. Reserved numeric values may not be used
     /// by enum values in the same enum declaration. Reserved ranges may not
     /// overlap.
-    pub reserved_range:
-        ::prost::alloc::vec::Vec<enum_descriptor_proto::EnumReservedRangeGraphQlInput>,
+    pub reserved_range: ::prost::alloc::vec::Vec<enum_descriptor_proto::EnumReservedRangeInput>,
     /// Reserved enum value names, which may not be reused. A given name may only
     /// be reserved once.
     pub reserved_name: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
@@ -2422,7 +2421,7 @@ impl From<EnumDescriptorProtoGraphQl> for EnumDescriptorProto {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumDescriptorProto> for EnumDescriptorProtoGraphQlInput {
+impl From<EnumDescriptorProto> for EnumDescriptorProtoInput {
     fn from(other: EnumDescriptorProto) -> Self {
         let EnumDescriptorProto {
             name,
@@ -2442,9 +2441,9 @@ impl From<EnumDescriptorProto> for EnumDescriptorProtoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumDescriptorProtoGraphQlInput> for EnumDescriptorProto {
-    fn from(other: EnumDescriptorProtoGraphQlInput) -> Self {
-        let EnumDescriptorProtoGraphQlInput {
+impl From<EnumDescriptorProtoInput> for EnumDescriptorProto {
+    fn from(other: EnumDescriptorProtoInput) -> Self {
+        let EnumDescriptorProtoInput {
             name,
             value,
             options,
@@ -2485,10 +2484,10 @@ pub struct EnumValueDescriptorProtoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "EnumValueDescriptorProtoInput")]
-pub struct EnumValueDescriptorProtoGraphQlInput {
+pub struct EnumValueDescriptorProtoInput {
     pub name: ::core::option::Option<::prost::alloc::string::String>,
     pub number: ::core::option::Option<i32>,
-    pub options: ::core::option::Option<EnumValueOptionsGraphQlInput>,
+    pub options: ::core::option::Option<EnumValueOptionsInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<EnumValueDescriptorProto> for EnumValueDescriptorProtoGraphQl {
@@ -2522,7 +2521,7 @@ impl From<EnumValueDescriptorProtoGraphQl> for EnumValueDescriptorProto {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumValueDescriptorProto> for EnumValueDescriptorProtoGraphQlInput {
+impl From<EnumValueDescriptorProto> for EnumValueDescriptorProtoInput {
     fn from(other: EnumValueDescriptorProto) -> Self {
         let EnumValueDescriptorProto {
             name,
@@ -2538,9 +2537,9 @@ impl From<EnumValueDescriptorProto> for EnumValueDescriptorProtoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumValueDescriptorProtoGraphQlInput> for EnumValueDescriptorProto {
-    fn from(other: EnumValueDescriptorProtoGraphQlInput) -> Self {
-        let EnumValueDescriptorProtoGraphQlInput {
+impl From<EnumValueDescriptorProtoInput> for EnumValueDescriptorProto {
+    fn from(other: EnumValueDescriptorProtoInput) -> Self {
+        let EnumValueDescriptorProtoInput {
             name,
             number,
             options,
@@ -2577,10 +2576,10 @@ pub struct ServiceDescriptorProtoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "ServiceDescriptorProtoInput")]
-pub struct ServiceDescriptorProtoGraphQlInput {
+pub struct ServiceDescriptorProtoInput {
     pub name: ::core::option::Option<::prost::alloc::string::String>,
-    pub method: ::prost::alloc::vec::Vec<MethodDescriptorProtoGraphQlInput>,
-    pub options: ::core::option::Option<ServiceOptionsGraphQlInput>,
+    pub method: ::prost::alloc::vec::Vec<MethodDescriptorProtoInput>,
+    pub options: ::core::option::Option<ServiceOptionsInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<ServiceDescriptorProto> for ServiceDescriptorProtoGraphQl {
@@ -2614,7 +2613,7 @@ impl From<ServiceDescriptorProtoGraphQl> for ServiceDescriptorProto {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ServiceDescriptorProto> for ServiceDescriptorProtoGraphQlInput {
+impl From<ServiceDescriptorProto> for ServiceDescriptorProtoInput {
     fn from(other: ServiceDescriptorProto) -> Self {
         let ServiceDescriptorProto {
             name,
@@ -2630,9 +2629,9 @@ impl From<ServiceDescriptorProto> for ServiceDescriptorProtoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ServiceDescriptorProtoGraphQlInput> for ServiceDescriptorProto {
-    fn from(other: ServiceDescriptorProtoGraphQlInput) -> Self {
-        let ServiceDescriptorProtoGraphQlInput {
+impl From<ServiceDescriptorProtoInput> for ServiceDescriptorProto {
+    fn from(other: ServiceDescriptorProtoInput) -> Self {
+        let ServiceDescriptorProtoInput {
             name,
             method,
             options,
@@ -2676,13 +2675,13 @@ pub struct MethodDescriptorProtoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "MethodDescriptorProtoInput")]
-pub struct MethodDescriptorProtoGraphQlInput {
+pub struct MethodDescriptorProtoInput {
     pub name: ::core::option::Option<::prost::alloc::string::String>,
     /// Input and output type names.  These are resolved in the same way as
     /// FieldDescriptorProto.type_name, but must refer to a message type.
     pub input_type: ::core::option::Option<::prost::alloc::string::String>,
     pub output_type: ::core::option::Option<::prost::alloc::string::String>,
-    pub options: ::core::option::Option<MethodOptionsGraphQlInput>,
+    pub options: ::core::option::Option<MethodOptionsInput>,
     /// Identifies if client streams multiple client messages
     pub client_streaming: ::core::option::Option<bool>,
     /// Identifies if server streams multiple server messages
@@ -2732,7 +2731,7 @@ impl From<MethodDescriptorProtoGraphQl> for MethodDescriptorProto {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<MethodDescriptorProto> for MethodDescriptorProtoGraphQlInput {
+impl From<MethodDescriptorProto> for MethodDescriptorProtoInput {
     fn from(other: MethodDescriptorProto) -> Self {
         let MethodDescriptorProto {
             name,
@@ -2754,9 +2753,9 @@ impl From<MethodDescriptorProto> for MethodDescriptorProtoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<MethodDescriptorProtoGraphQlInput> for MethodDescriptorProto {
-    fn from(other: MethodDescriptorProtoGraphQlInput) -> Self {
-        let MethodDescriptorProtoGraphQlInput {
+impl From<MethodDescriptorProtoInput> for MethodDescriptorProto {
+    fn from(other: MethodDescriptorProtoInput) -> Self {
+        let MethodDescriptorProtoInput {
             name,
             input_type,
             output_type,
@@ -2880,7 +2879,7 @@ pub struct FileOptionsGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "FileOptionsInput")]
-pub struct FileOptionsGraphQlInput {
+pub struct FileOptionsInput {
     /// Sets the Java package where classes generated from this .proto will be
     /// placed.  By default, the proto package is used, but this is often
     /// inappropriate because proto packages do not normally start with backwards
@@ -2909,7 +2908,7 @@ pub struct FileOptionsGraphQlInput {
     /// However, an extension field still accepts non-UTF-8 byte sequences.
     /// This option has no effect on when used with the lite runtime.
     pub java_string_check_utf8: ::core::option::Option<bool>,
-    pub optimize_for: ::core::option::Option<file_options::OptimizeModeGraphQlInput>,
+    pub optimize_for: ::core::option::Option<file_options::OptimizeModeInput>,
     /// Sets the Go package where structs generated from this .proto will be
     /// placed. If omitted, the Go package will be derived from the following:
     ///   - The basename of the package import path, if provided.
@@ -2965,7 +2964,7 @@ pub struct FileOptionsGraphQlInput {
     pub ruby_package: ::core::option::Option<::prost::alloc::string::String>,
     /// The parser stores options it doesn't recognize here.
     /// See the documentation for the "Options" section above.
-    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionGraphQlInput>,
+    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<FileOptions> for FileOptionsGraphQl {
@@ -3075,7 +3074,7 @@ impl From<FileOptionsGraphQl> for FileOptions {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FileOptions> for FileOptionsGraphQlInput {
+impl From<FileOptions> for FileOptionsInput {
     fn from(other: FileOptions) -> Self {
         let optimize_for = if other.optimize_for.is_some() {
             Some(other.optimize_for())
@@ -3131,9 +3130,9 @@ impl From<FileOptions> for FileOptionsGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FileOptionsGraphQlInput> for FileOptions {
-    fn from(other: FileOptionsGraphQlInput) -> Self {
-        let FileOptionsGraphQlInput {
+impl From<FileOptionsInput> for FileOptions {
+    fn from(other: FileOptionsInput) -> Self {
+        let FileOptionsInput {
             java_package,
             java_outer_classname,
             java_multiple_files,
@@ -3253,7 +3252,7 @@ pub struct MessageOptionsGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "MessageOptionsInput")]
-pub struct MessageOptionsGraphQlInput {
+pub struct MessageOptionsInput {
     /// Set true to use the old proto1 MessageSet wire format for extensions.
     /// This is provided for backwards-compatibility with the MessageSet wire
     /// format.  You should not use this for any other reason:  It's less
@@ -3305,7 +3304,7 @@ pub struct MessageOptionsGraphQlInput {
     /// parser.
     pub map_entry: ::core::option::Option<bool>,
     /// The parser stores options it doesn't recognize here. See above.
-    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionGraphQlInput>,
+    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<MessageOptions> for MessageOptionsGraphQl {
@@ -3347,7 +3346,7 @@ impl From<MessageOptionsGraphQl> for MessageOptions {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<MessageOptions> for MessageOptionsGraphQlInput {
+impl From<MessageOptions> for MessageOptionsInput {
     fn from(other: MessageOptions) -> Self {
         let MessageOptions {
             message_set_wire_format,
@@ -3367,9 +3366,9 @@ impl From<MessageOptions> for MessageOptionsGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<MessageOptionsGraphQlInput> for MessageOptions {
-    fn from(other: MessageOptionsGraphQlInput) -> Self {
-        let MessageOptionsGraphQlInput {
+impl From<MessageOptionsInput> for MessageOptions {
+    fn from(other: MessageOptionsInput) -> Self {
+        let MessageOptionsInput {
             message_set_wire_format,
             no_standard_descriptor_accessor,
             deprecated,
@@ -3466,12 +3465,12 @@ pub struct FieldOptionsGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "FieldOptionsInput")]
-pub struct FieldOptionsGraphQlInput {
+pub struct FieldOptionsInput {
     /// The ctype option instructs the C++ code generator to use a different
     /// representation of the field than it normally would.  See the specific
     /// options below.  This option is not yet implemented in the open source
     /// release -- sorry, we'll try to include it in a future version!
-    pub ctype: ::core::option::Option<field_options::CTypeGraphQlInput>,
+    pub ctype: ::core::option::Option<field_options::CTypeInput>,
     /// The packed option can be enabled for repeated primitive fields to enable
     /// a more efficient representation on the wire. Rather than repeatedly
     /// writing the tag and type for each element, the entire array is encoded as
@@ -3489,7 +3488,7 @@ pub struct FieldOptionsGraphQlInput {
     ///
     /// This option is an enum to permit additional types to be added, e.g.
     /// goog.math.Integer.
-    pub jstype: ::core::option::Option<field_options::JsTypeGraphQlInput>,
+    pub jstype: ::core::option::Option<field_options::JsTypeInput>,
     /// Should this field be parsed lazily?  Lazy applies only to message-type
     /// fields.  It means that when the outer message is initially parsed, the
     /// inner message's contents will not be parsed but instead stored in encoded
@@ -3527,7 +3526,7 @@ pub struct FieldOptionsGraphQlInput {
     /// For Google-internal migration only. Do not use.
     pub weak: ::core::option::Option<bool>,
     /// The parser stores options it doesn't recognize here. See above.
-    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionGraphQlInput>,
+    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<FieldOptions> for FieldOptionsGraphQl {
@@ -3585,7 +3584,7 @@ impl From<FieldOptionsGraphQl> for FieldOptions {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FieldOptions> for FieldOptionsGraphQlInput {
+impl From<FieldOptions> for FieldOptionsInput {
     fn from(other: FieldOptions) -> Self {
         let ctype = if other.ctype.is_some() {
             Some(other.ctype())
@@ -3617,9 +3616,9 @@ impl From<FieldOptions> for FieldOptionsGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FieldOptionsGraphQlInput> for FieldOptions {
-    fn from(other: FieldOptionsGraphQlInput) -> Self {
-        let FieldOptionsGraphQlInput {
+impl From<FieldOptionsInput> for FieldOptions {
+    fn from(other: FieldOptionsInput) -> Self {
+        let FieldOptionsInput {
             ctype,
             packed,
             jstype,
@@ -3661,9 +3660,9 @@ pub struct OneofOptionsGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "OneofOptionsInput")]
-pub struct OneofOptionsGraphQlInput {
+pub struct OneofOptionsInput {
     /// The parser stores options it doesn't recognize here. See above.
-    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionGraphQlInput>,
+    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<OneofOptions> for OneofOptionsGraphQl {
@@ -3689,7 +3688,7 @@ impl From<OneofOptionsGraphQl> for OneofOptions {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<OneofOptions> for OneofOptionsGraphQlInput {
+impl From<OneofOptions> for OneofOptionsInput {
     fn from(other: OneofOptions) -> Self {
         let OneofOptions {
             uninterpreted_option,
@@ -3701,9 +3700,9 @@ impl From<OneofOptions> for OneofOptionsGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<OneofOptionsGraphQlInput> for OneofOptions {
-    fn from(other: OneofOptionsGraphQlInput) -> Self {
-        let OneofOptionsGraphQlInput {
+impl From<OneofOptionsInput> for OneofOptions {
+    fn from(other: OneofOptionsInput) -> Self {
+        let OneofOptionsInput {
             uninterpreted_option,
         } = other;
         Self {
@@ -3741,7 +3740,7 @@ pub struct EnumOptionsGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "EnumOptionsInput")]
-pub struct EnumOptionsGraphQlInput {
+pub struct EnumOptionsInput {
     /// Set this option to true to allow mapping different tag names to the same
     /// value.
     pub allow_alias: ::core::option::Option<bool>,
@@ -3751,7 +3750,7 @@ pub struct EnumOptionsGraphQlInput {
     /// is a formalization for deprecating enums.
     pub deprecated: ::core::option::Option<bool>,
     /// The parser stores options it doesn't recognize here. See above.
-    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionGraphQlInput>,
+    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<EnumOptions> for EnumOptionsGraphQl {
@@ -3785,7 +3784,7 @@ impl From<EnumOptionsGraphQl> for EnumOptions {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumOptions> for EnumOptionsGraphQlInput {
+impl From<EnumOptions> for EnumOptionsInput {
     fn from(other: EnumOptions) -> Self {
         let EnumOptions {
             allow_alias,
@@ -3801,9 +3800,9 @@ impl From<EnumOptions> for EnumOptionsGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumOptionsGraphQlInput> for EnumOptions {
-    fn from(other: EnumOptionsGraphQlInput) -> Self {
-        let EnumOptionsGraphQlInput {
+impl From<EnumOptionsInput> for EnumOptions {
+    fn from(other: EnumOptionsInput) -> Self {
+        let EnumOptionsInput {
             allow_alias,
             deprecated,
             uninterpreted_option,
@@ -3842,14 +3841,14 @@ pub struct EnumValueOptionsGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "EnumValueOptionsInput")]
-pub struct EnumValueOptionsGraphQlInput {
+pub struct EnumValueOptionsInput {
     /// Is this enum value deprecated?
     /// Depending on the target platform, this can emit Deprecated annotations
     /// for the enum value, or it will be completely ignored; in the very least,
     /// this is a formalization for deprecating enum values.
     pub deprecated: ::core::option::Option<bool>,
     /// The parser stores options it doesn't recognize here. See above.
-    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionGraphQlInput>,
+    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<EnumValueOptions> for EnumValueOptionsGraphQl {
@@ -3879,7 +3878,7 @@ impl From<EnumValueOptionsGraphQl> for EnumValueOptions {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumValueOptions> for EnumValueOptionsGraphQlInput {
+impl From<EnumValueOptions> for EnumValueOptionsInput {
     fn from(other: EnumValueOptions) -> Self {
         let EnumValueOptions {
             deprecated,
@@ -3893,9 +3892,9 @@ impl From<EnumValueOptions> for EnumValueOptionsGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumValueOptionsGraphQlInput> for EnumValueOptions {
-    fn from(other: EnumValueOptionsGraphQlInput) -> Self {
-        let EnumValueOptionsGraphQlInput {
+impl From<EnumValueOptionsInput> for EnumValueOptions {
+    fn from(other: EnumValueOptionsInput) -> Self {
+        let EnumValueOptionsInput {
             deprecated,
             uninterpreted_option,
         } = other;
@@ -3932,14 +3931,14 @@ pub struct ServiceOptionsGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "ServiceOptionsInput")]
-pub struct ServiceOptionsGraphQlInput {
+pub struct ServiceOptionsInput {
     /// Is this service deprecated?
     /// Depending on the target platform, this can emit Deprecated annotations
     /// for the service, or it will be completely ignored; in the very least,
     /// this is a formalization for deprecating services.
     pub deprecated: ::core::option::Option<bool>,
     /// The parser stores options it doesn't recognize here. See above.
-    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionGraphQlInput>,
+    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<ServiceOptions> for ServiceOptionsGraphQl {
@@ -3969,7 +3968,7 @@ impl From<ServiceOptionsGraphQl> for ServiceOptions {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ServiceOptions> for ServiceOptionsGraphQlInput {
+impl From<ServiceOptions> for ServiceOptionsInput {
     fn from(other: ServiceOptions) -> Self {
         let ServiceOptions {
             deprecated,
@@ -3983,9 +3982,9 @@ impl From<ServiceOptions> for ServiceOptionsGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ServiceOptionsGraphQlInput> for ServiceOptions {
-    fn from(other: ServiceOptionsGraphQlInput) -> Self {
-        let ServiceOptionsGraphQlInput {
+impl From<ServiceOptionsInput> for ServiceOptions {
+    fn from(other: ServiceOptionsInput) -> Self {
+        let ServiceOptionsInput {
             deprecated,
             uninterpreted_option,
         } = other;
@@ -4023,15 +4022,15 @@ pub struct MethodOptionsGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "MethodOptionsInput")]
-pub struct MethodOptionsGraphQlInput {
+pub struct MethodOptionsInput {
     /// Is this method deprecated?
     /// Depending on the target platform, this can emit Deprecated annotations
     /// for the method, or it will be completely ignored; in the very least,
     /// this is a formalization for deprecating methods.
     pub deprecated: ::core::option::Option<bool>,
-    pub idempotency_level: ::core::option::Option<method_options::IdempotencyLevelGraphQlInput>,
+    pub idempotency_level: ::core::option::Option<method_options::IdempotencyLevelInput>,
     /// The parser stores options it doesn't recognize here. See above.
-    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionGraphQlInput>,
+    pub uninterpreted_option: ::prost::alloc::vec::Vec<UninterpretedOptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<MethodOptions> for MethodOptionsGraphQl {
@@ -4069,7 +4068,7 @@ impl From<MethodOptionsGraphQl> for MethodOptions {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<MethodOptions> for MethodOptionsGraphQlInput {
+impl From<MethodOptions> for MethodOptionsInput {
     fn from(other: MethodOptions) -> Self {
         let idempotency_level = if other.idempotency_level.is_some() {
             Some(other.idempotency_level())
@@ -4089,9 +4088,9 @@ impl From<MethodOptions> for MethodOptionsGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<MethodOptionsGraphQlInput> for MethodOptions {
-    fn from(other: MethodOptionsGraphQlInput) -> Self {
-        let MethodOptionsGraphQlInput {
+impl From<MethodOptionsInput> for MethodOptions {
+    fn from(other: MethodOptionsInput) -> Self {
+        let MethodOptionsInput {
             deprecated,
             idempotency_level,
             uninterpreted_option,
@@ -4144,8 +4143,8 @@ pub struct UninterpretedOptionGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "UninterpretedOptionInput")]
-pub struct UninterpretedOptionGraphQlInput {
-    pub name: ::prost::alloc::vec::Vec<uninterpreted_option::NamePartGraphQlInput>,
+pub struct UninterpretedOptionInput {
+    pub name: ::prost::alloc::vec::Vec<uninterpreted_option::NamePartInput>,
     /// The value of the uninterpreted option, in whatever type the tokenizer
     /// identified it as during parsing. Exactly one of these should be set.
     pub identifier_value: ::core::option::Option<::prost::alloc::string::String>,
@@ -4203,7 +4202,7 @@ impl From<UninterpretedOptionGraphQl> for UninterpretedOption {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<UninterpretedOption> for UninterpretedOptionGraphQlInput {
+impl From<UninterpretedOption> for UninterpretedOptionInput {
     fn from(other: UninterpretedOption) -> Self {
         let UninterpretedOption {
             name,
@@ -4227,9 +4226,9 @@ impl From<UninterpretedOption> for UninterpretedOptionGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<UninterpretedOptionGraphQlInput> for UninterpretedOption {
-    fn from(other: UninterpretedOptionGraphQlInput) -> Self {
-        let UninterpretedOptionGraphQlInput {
+impl From<UninterpretedOptionInput> for UninterpretedOption {
+    fn from(other: UninterpretedOptionInput) -> Self {
+        let UninterpretedOptionInput {
             name,
             identifier_value,
             positive_int_value,
@@ -4317,7 +4316,7 @@ pub struct SourceCodeInfoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "SourceCodeInfoInput")]
-pub struct SourceCodeInfoGraphQlInput {
+pub struct SourceCodeInfoInput {
     /// A Location identifies a piece of source code in a .proto file which
     /// corresponds to a particular definition.  This information is intended
     /// to be useful to IDEs, code indexers, documentation generators, and similar
@@ -4361,7 +4360,7 @@ pub struct SourceCodeInfoGraphQlInput {
     /// - Code which tries to interpret locations should probably be designed to
     ///   ignore those that it doesn't understand, as more types of locations could
     ///   be recorded in the future.
-    pub location: ::prost::alloc::vec::Vec<source_code_info::LocationGraphQlInput>,
+    pub location: ::prost::alloc::vec::Vec<source_code_info::LocationInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<SourceCodeInfo> for SourceCodeInfoGraphQl {
@@ -4382,7 +4381,7 @@ impl From<SourceCodeInfoGraphQl> for SourceCodeInfo {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<SourceCodeInfo> for SourceCodeInfoGraphQlInput {
+impl From<SourceCodeInfo> for SourceCodeInfoInput {
     fn from(other: SourceCodeInfo) -> Self {
         let SourceCodeInfo { location, .. } = other;
         Self {
@@ -4391,9 +4390,9 @@ impl From<SourceCodeInfo> for SourceCodeInfoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<SourceCodeInfoGraphQlInput> for SourceCodeInfo {
-    fn from(other: SourceCodeInfoGraphQlInput) -> Self {
-        let SourceCodeInfoGraphQlInput { location } = other;
+impl From<SourceCodeInfoInput> for SourceCodeInfo {
+    fn from(other: SourceCodeInfoInput) -> Self {
+        let SourceCodeInfoInput { location } = other;
         Self {
             location: location.into_iter().map(Into::into).collect(),
         }
@@ -4428,10 +4427,10 @@ pub struct GeneratedCodeInfoGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "GeneratedCodeInfoInput")]
-pub struct GeneratedCodeInfoGraphQlInput {
+pub struct GeneratedCodeInfoInput {
     /// An Annotation connects some span of text in generated code to an element
     /// of its generating .proto file.
-    pub annotation: ::prost::alloc::vec::Vec<generated_code_info::AnnotationGraphQlInput>,
+    pub annotation: ::prost::alloc::vec::Vec<generated_code_info::AnnotationInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<GeneratedCodeInfo> for GeneratedCodeInfoGraphQl {
@@ -4452,7 +4451,7 @@ impl From<GeneratedCodeInfoGraphQl> for GeneratedCodeInfo {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<GeneratedCodeInfo> for GeneratedCodeInfoGraphQlInput {
+impl From<GeneratedCodeInfo> for GeneratedCodeInfoInput {
     fn from(other: GeneratedCodeInfo) -> Self {
         let GeneratedCodeInfo { annotation, .. } = other;
         Self {
@@ -4461,9 +4460,9 @@ impl From<GeneratedCodeInfo> for GeneratedCodeInfoGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<GeneratedCodeInfoGraphQlInput> for GeneratedCodeInfo {
-    fn from(other: GeneratedCodeInfoGraphQlInput) -> Self {
-        let GeneratedCodeInfoGraphQlInput { annotation } = other;
+impl From<GeneratedCodeInfoInput> for GeneratedCodeInfo {
+    fn from(other: GeneratedCodeInfoInput) -> Self {
+        let GeneratedCodeInfoInput { annotation } = other;
         Self {
             annotation: annotation.into_iter().map(Into::into).collect(),
         }
@@ -4686,7 +4685,7 @@ pub struct AnyGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "AnyInput")]
-pub struct AnyGraphQlInput {
+pub struct AnyInput {
     /// A URL/resource name that uniquely identifies the type of the serialized
     /// protocol buffer message. This string must contain at least
     /// one "/" character. The last segment of the URL's path must represent
@@ -4742,7 +4741,7 @@ impl From<AnyGraphQl> for Any {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Any> for AnyGraphQlInput {
+impl From<Any> for AnyInput {
     fn from(other: Any) -> Self {
         let Any {
             type_url, value, ..
@@ -4754,9 +4753,9 @@ impl From<Any> for AnyGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<AnyGraphQlInput> for Any {
-    fn from(other: AnyGraphQlInput) -> Self {
-        let AnyGraphQlInput { type_url, value } = other;
+impl From<AnyInput> for Any {
+    fn from(other: AnyInput) -> Self {
+        let AnyInput { type_url, value } = other;
         Self {
             type_url: type_url.into(),
             value: value.into_iter().map(Into::into).collect(),
@@ -4790,7 +4789,7 @@ pub struct SourceContextGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "SourceContextInput")]
-pub struct SourceContextGraphQlInput {
+pub struct SourceContextInput {
     /// The path-qualified name of the .proto file that contained the associated
     /// protobuf element.  For example: `"google/protobuf/source_context.proto"`.
     pub file_name: ::prost::alloc::string::String,
@@ -4814,7 +4813,7 @@ impl From<SourceContextGraphQl> for SourceContext {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<SourceContext> for SourceContextGraphQlInput {
+impl From<SourceContext> for SourceContextInput {
     fn from(other: SourceContext) -> Self {
         let SourceContext { file_name, .. } = other;
         Self {
@@ -4823,9 +4822,9 @@ impl From<SourceContext> for SourceContextGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<SourceContextGraphQlInput> for SourceContext {
-    fn from(other: SourceContextGraphQlInput) -> Self {
-        let SourceContextGraphQlInput { file_name } = other;
+impl From<SourceContextInput> for SourceContext {
+    fn from(other: SourceContextInput) -> Self {
+        let SourceContextInput { file_name } = other;
         Self {
             file_name: file_name.into(),
         }
@@ -4865,19 +4864,19 @@ pub struct TypeGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "TypeInput")]
-pub struct TypeGraphQlInput {
+pub struct TypeInput {
     /// The fully qualified message name.
     pub name: ::prost::alloc::string::String,
     /// The list of fields.
-    pub fields: ::prost::alloc::vec::Vec<FieldGraphQlInput>,
+    pub fields: ::prost::alloc::vec::Vec<FieldInput>,
     /// The list of types appearing in `oneof` definitions in this type.
     pub oneofs: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// The protocol buffer options.
-    pub options: ::prost::alloc::vec::Vec<OptionGraphQlInput>,
+    pub options: ::prost::alloc::vec::Vec<OptionInput>,
     /// The source context.
-    pub source_context: ::core::option::Option<SourceContextGraphQlInput>,
+    pub source_context: ::core::option::Option<SourceContextInput>,
     /// The source syntax.
-    pub syntax: SyntaxGraphQlInput,
+    pub syntax: SyntaxInput,
 }
 #[allow(clippy::useless_conversion)]
 impl From<Type> for TypeGraphQl {
@@ -4923,7 +4922,7 @@ impl From<TypeGraphQl> for Type {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Type> for TypeGraphQlInput {
+impl From<Type> for TypeInput {
     fn from(other: Type) -> Self {
         let syntax = other.syntax();
         let Type {
@@ -4945,9 +4944,9 @@ impl From<Type> for TypeGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<TypeGraphQlInput> for Type {
-    fn from(other: TypeGraphQlInput) -> Self {
-        let TypeGraphQlInput {
+impl From<TypeInput> for Type {
+    fn from(other: TypeInput) -> Self {
+        let TypeInput {
             name,
             fields,
             oneofs,
@@ -5009,11 +5008,11 @@ pub struct FieldGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "FieldInput")]
-pub struct FieldGraphQlInput {
+pub struct FieldInput {
     /// The field type.
-    pub kind: field::KindGraphQlInput,
+    pub kind: field::KindInput,
     /// The field cardinality.
-    pub cardinality: field::CardinalityGraphQlInput,
+    pub cardinality: field::CardinalityInput,
     /// The field number.
     pub number: i32,
     /// The field name.
@@ -5027,7 +5026,7 @@ pub struct FieldGraphQlInput {
     /// Whether to use alternative packed wire representation.
     pub packed: bool,
     /// The protocol buffer options.
-    pub options: ::prost::alloc::vec::Vec<OptionGraphQlInput>,
+    pub options: ::prost::alloc::vec::Vec<OptionInput>,
     /// The field JSON name.
     pub json_name: ::prost::alloc::string::String,
     /// The string value of the default value of this field. Proto2 syntax only.
@@ -5093,7 +5092,7 @@ impl From<FieldGraphQl> for Field {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Field> for FieldGraphQlInput {
+impl From<Field> for FieldInput {
     fn from(other: Field) -> Self {
         let kind = other.kind();
         let cardinality = other.cardinality();
@@ -5123,9 +5122,9 @@ impl From<Field> for FieldGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FieldGraphQlInput> for Field {
-    fn from(other: FieldGraphQlInput) -> Self {
-        let FieldGraphQlInput {
+impl From<FieldInput> for Field {
+    fn from(other: FieldInput) -> Self {
+        let FieldInput {
             kind,
             cardinality,
             number,
@@ -5183,17 +5182,17 @@ pub struct EnumGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "EnumInput")]
-pub struct EnumGraphQlInput {
+pub struct EnumInput {
     /// Enum type name.
     pub name: ::prost::alloc::string::String,
     /// Enum value definitions.
-    pub enumvalue: ::prost::alloc::vec::Vec<EnumValueGraphQlInput>,
+    pub enumvalue: ::prost::alloc::vec::Vec<EnumValueInput>,
     /// Protocol buffer options.
-    pub options: ::prost::alloc::vec::Vec<OptionGraphQlInput>,
+    pub options: ::prost::alloc::vec::Vec<OptionInput>,
     /// The source context.
-    pub source_context: ::core::option::Option<SourceContextGraphQlInput>,
+    pub source_context: ::core::option::Option<SourceContextInput>,
     /// The source syntax.
-    pub syntax: SyntaxGraphQlInput,
+    pub syntax: SyntaxInput,
 }
 #[allow(clippy::useless_conversion)]
 impl From<Enum> for EnumGraphQl {
@@ -5235,7 +5234,7 @@ impl From<EnumGraphQl> for Enum {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Enum> for EnumGraphQlInput {
+impl From<Enum> for EnumInput {
     fn from(other: Enum) -> Self {
         let syntax = other.syntax();
         let Enum {
@@ -5255,9 +5254,9 @@ impl From<Enum> for EnumGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumGraphQlInput> for Enum {
-    fn from(other: EnumGraphQlInput) -> Self {
-        let EnumGraphQlInput {
+impl From<EnumInput> for Enum {
+    fn from(other: EnumInput) -> Self {
+        let EnumInput {
             name,
             enumvalue,
             options,
@@ -5301,13 +5300,13 @@ pub struct EnumValueGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "EnumValueInput")]
-pub struct EnumValueGraphQlInput {
+pub struct EnumValueInput {
     /// Enum value name.
     pub name: ::prost::alloc::string::String,
     /// Enum value number.
     pub number: i32,
     /// Protocol buffer options.
-    pub options: ::prost::alloc::vec::Vec<OptionGraphQlInput>,
+    pub options: ::prost::alloc::vec::Vec<OptionInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<EnumValue> for EnumValueGraphQl {
@@ -5341,7 +5340,7 @@ impl From<EnumValueGraphQl> for EnumValue {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumValue> for EnumValueGraphQlInput {
+impl From<EnumValue> for EnumValueInput {
     fn from(other: EnumValue) -> Self {
         let EnumValue {
             name,
@@ -5357,9 +5356,9 @@ impl From<EnumValue> for EnumValueGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<EnumValueGraphQlInput> for EnumValue {
-    fn from(other: EnumValueGraphQlInput) -> Self {
-        let EnumValueGraphQlInput {
+impl From<EnumValueInput> for EnumValue {
+    fn from(other: EnumValueInput) -> Self {
+        let EnumValueInput {
             name,
             number,
             options,
@@ -5405,7 +5404,7 @@ pub struct OptionGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "OptionInput")]
-pub struct OptionGraphQlInput {
+pub struct OptionInput {
     /// The option's name. For protobuf built-in options (options defined in
     /// descriptor.proto), this is the short name. For example, `"map_entry"`.
     /// For custom options, it should be the fully-qualified name. For example,
@@ -5415,7 +5414,7 @@ pub struct OptionGraphQlInput {
     /// the corresponding wrapper type defined in google/protobuf/wrappers.proto
     /// should be used. If the value is an enum, it should be stored as an int32
     /// value using the google.protobuf.Int32Value type.
-    pub value: ::core::option::Option<AnyGraphQlInput>,
+    pub value: ::core::option::Option<AnyInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<Option> for OptionGraphQl {
@@ -5438,7 +5437,7 @@ impl From<OptionGraphQl> for Option {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Option> for OptionGraphQlInput {
+impl From<Option> for OptionInput {
     fn from(other: Option) -> Self {
         let Option { name, value, .. } = other;
         Self {
@@ -5448,9 +5447,9 @@ impl From<Option> for OptionGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<OptionGraphQlInput> for Option {
-    fn from(other: OptionGraphQlInput) -> Self {
-        let OptionGraphQlInput { name, value } = other;
+impl From<OptionInput> for Option {
+    fn from(other: OptionInput) -> Self {
+        let OptionInput { name, value } = other;
         Self {
             name: name.into(),
             value: value.map(Into::into),
@@ -5491,7 +5490,7 @@ pub enum SyntaxGraphQl {
     /// Syntax `proto3`.
     Proto3 = 1,
 }
-pub use self::SyntaxGraphQl as SyntaxGraphQlInput;
+pub use self::SyntaxGraphQl as SyntaxInput;
 /// Api is a light-weight descriptor for an API Interface.
 ///
 /// Interfaces are also described as "protocol buffer services" in some contexts,
@@ -5566,14 +5565,14 @@ pub struct ApiGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "ApiInput")]
-pub struct ApiGraphQlInput {
+pub struct ApiInput {
     /// The fully qualified name of this interface, including package name
     /// followed by the interface's simple name.
     pub name: ::prost::alloc::string::String,
     /// The methods of this interface, in unspecified order.
-    pub methods: ::prost::alloc::vec::Vec<MethodGraphQlInput>,
+    pub methods: ::prost::alloc::vec::Vec<MethodInput>,
     /// Any metadata attached to the interface.
-    pub options: ::prost::alloc::vec::Vec<OptionGraphQlInput>,
+    pub options: ::prost::alloc::vec::Vec<OptionInput>,
     /// A version string for this interface. If specified, must have the form
     /// `major-version.minor-version`, as in `1.10`. If the minor version is
     /// omitted, it defaults to zero. If the entire version field is empty, the
@@ -5598,11 +5597,11 @@ pub struct ApiGraphQlInput {
     pub version: ::prost::alloc::string::String,
     /// Source context for the protocol buffer service represented by this
     /// message.
-    pub source_context: ::core::option::Option<SourceContextGraphQlInput>,
+    pub source_context: ::core::option::Option<SourceContextInput>,
     /// Included interfaces. See [Mixin][].
-    pub mixins: ::prost::alloc::vec::Vec<MixinGraphQlInput>,
+    pub mixins: ::prost::alloc::vec::Vec<MixinInput>,
     /// The source syntax of the service.
-    pub syntax: SyntaxGraphQlInput,
+    pub syntax: SyntaxInput,
 }
 #[allow(clippy::useless_conversion)]
 impl From<Api> for ApiGraphQl {
@@ -5652,7 +5651,7 @@ impl From<ApiGraphQl> for Api {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Api> for ApiGraphQlInput {
+impl From<Api> for ApiInput {
     fn from(other: Api) -> Self {
         let syntax = other.syntax();
         let Api {
@@ -5676,9 +5675,9 @@ impl From<Api> for ApiGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ApiGraphQlInput> for Api {
-    fn from(other: ApiGraphQlInput) -> Self {
-        let ApiGraphQlInput {
+impl From<ApiInput> for Api {
+    fn from(other: ApiInput) -> Self {
+        let ApiInput {
             name,
             methods,
             options,
@@ -5734,7 +5733,7 @@ pub struct MethodGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "MethodInput")]
-pub struct MethodGraphQlInput {
+pub struct MethodInput {
     /// The simple name of this method.
     pub name: ::prost::alloc::string::String,
     /// A URL of the input message type.
@@ -5746,9 +5745,9 @@ pub struct MethodGraphQlInput {
     /// If true, the response is streamed.
     pub response_streaming: bool,
     /// Any metadata attached to the method.
-    pub options: ::prost::alloc::vec::Vec<OptionGraphQlInput>,
+    pub options: ::prost::alloc::vec::Vec<OptionInput>,
     /// The source syntax of this method.
-    pub syntax: SyntaxGraphQlInput,
+    pub syntax: SyntaxInput,
 }
 #[allow(clippy::useless_conversion)]
 impl From<Method> for MethodGraphQl {
@@ -5798,7 +5797,7 @@ impl From<MethodGraphQl> for Method {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Method> for MethodGraphQlInput {
+impl From<Method> for MethodInput {
     fn from(other: Method) -> Self {
         let syntax = other.syntax();
         let Method {
@@ -5822,9 +5821,9 @@ impl From<Method> for MethodGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<MethodGraphQlInput> for Method {
-    fn from(other: MethodGraphQlInput) -> Self {
-        let MethodGraphQlInput {
+impl From<MethodInput> for Method {
+    fn from(other: MethodInput) -> Self {
+        let MethodInput {
             name,
             request_type_url,
             request_streaming,
@@ -6025,7 +6024,7 @@ pub struct MixinGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "MixinInput")]
-pub struct MixinGraphQlInput {
+pub struct MixinInput {
     /// The fully qualified name of the interface which is included.
     pub name: ::prost::alloc::string::String,
     /// If non-empty specifies a path under which inherited HTTP paths
@@ -6053,7 +6052,7 @@ impl From<MixinGraphQl> for Mixin {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Mixin> for MixinGraphQlInput {
+impl From<Mixin> for MixinInput {
     fn from(other: Mixin) -> Self {
         let Mixin { name, root, .. } = other;
         Self {
@@ -6063,9 +6062,9 @@ impl From<Mixin> for MixinGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<MixinGraphQlInput> for Mixin {
-    fn from(other: MixinGraphQlInput) -> Self {
-        let MixinGraphQlInput { name, root } = other;
+impl From<MixinInput> for Mixin {
+    fn from(other: MixinInput) -> Self {
+        let MixinInput { name, root } = other;
         Self {
             name: name.into(),
             root: root.into(),
@@ -6223,7 +6222,7 @@ pub struct DurationGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "DurationInput")]
-pub struct DurationGraphQlInput {
+pub struct DurationInput {
     /// Signed seconds of the span of time. Must be from -315,576,000,000
     /// to +315,576,000,000 inclusive. Note: these bounds are computed from:
     /// 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
@@ -6257,7 +6256,7 @@ impl From<DurationGraphQl> for Duration {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Duration> for DurationGraphQlInput {
+impl From<Duration> for DurationInput {
     fn from(other: Duration) -> Self {
         let Duration { seconds, nanos, .. } = other;
         Self {
@@ -6267,9 +6266,9 @@ impl From<Duration> for DurationGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<DurationGraphQlInput> for Duration {
-    fn from(other: DurationGraphQlInput) -> Self {
-        let DurationGraphQlInput { seconds, nanos } = other;
+impl From<DurationInput> for Duration {
+    fn from(other: DurationInput) -> Self {
+        let DurationInput { seconds, nanos } = other;
         Self {
             seconds: seconds.into(),
             nanos: nanos.into(),
@@ -6696,7 +6695,7 @@ pub struct FieldMaskGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "FieldMaskInput")]
-pub struct FieldMaskGraphQlInput {
+pub struct FieldMaskInput {
     /// The set of field mask paths.
     pub paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
@@ -6719,7 +6718,7 @@ impl From<FieldMaskGraphQl> for FieldMask {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FieldMask> for FieldMaskGraphQlInput {
+impl From<FieldMask> for FieldMaskInput {
     fn from(other: FieldMask) -> Self {
         let FieldMask { paths, .. } = other;
         Self {
@@ -6728,9 +6727,9 @@ impl From<FieldMask> for FieldMaskGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<FieldMaskGraphQlInput> for FieldMask {
-    fn from(other: FieldMaskGraphQlInput) -> Self {
-        let FieldMaskGraphQlInput { paths } = other;
+impl From<FieldMaskInput> for FieldMask {
+    fn from(other: FieldMaskInput) -> Self {
+        let FieldMaskInput { paths } = other;
         Self {
             paths: paths.into_iter().map(Into::into).collect(),
         }
@@ -6776,10 +6775,10 @@ pub struct StructGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "StructInput")]
-pub struct StructGraphQlInput {
+pub struct StructInput {
     /// Unordered map of dynamically typed values.
     pub fields: ::async_graphql::Json<
-        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ValueGraphQlInput>,
+        ::prost::alloc::collections::BTreeMap<::prost::alloc::string::String, ValueInput>,
     >,
 }
 #[allow(clippy::useless_conversion)]
@@ -6801,7 +6800,7 @@ impl From<StructGraphQl> for Struct {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Struct> for StructGraphQlInput {
+impl From<Struct> for StructInput {
     fn from(other: Struct) -> Self {
         let Struct { fields, .. } = other;
         Self {
@@ -6810,9 +6809,9 @@ impl From<Struct> for StructGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<StructGraphQlInput> for Struct {
-    fn from(other: StructGraphQlInput) -> Self {
-        let StructGraphQlInput { fields } = other;
+impl From<StructInput> for Struct {
+    fn from(other: StructInput) -> Self {
+        let StructInput { fields } = other;
         Self {
             fields: fields.0.into_iter().map(|(k, v)| (k, v.into())).collect(),
         }
@@ -6852,9 +6851,9 @@ pub struct ValueGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "ValueInput")]
-pub struct ValueGraphQlInput {
+pub struct ValueInput {
     /// The kind of value.
-    pub kind: ::core::option::Option<value::KindGraphQlInput>,
+    pub kind: ::core::option::Option<value::KindInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<Value> for ValueGraphQl {
@@ -6875,7 +6874,7 @@ impl From<ValueGraphQl> for Value {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Value> for ValueGraphQlInput {
+impl From<Value> for ValueInput {
     fn from(other: Value) -> Self {
         let Value { kind, .. } = other;
         Self {
@@ -6884,9 +6883,9 @@ impl From<Value> for ValueGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ValueGraphQlInput> for Value {
-    fn from(other: ValueGraphQlInput) -> Self {
-        let ValueGraphQlInput { kind } = other;
+impl From<ValueInput> for Value {
+    fn from(other: ValueInput) -> Self {
+        let ValueInput { kind } = other;
         Self {
             kind: kind.map(Into::into),
         }
@@ -6920,9 +6919,9 @@ pub struct ListValueGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "ListValueInput")]
-pub struct ListValueGraphQlInput {
+pub struct ListValueInput {
     /// Repeated field of dynamically typed values.
-    pub values: ::prost::alloc::vec::Vec<ValueGraphQlInput>,
+    pub values: ::prost::alloc::vec::Vec<ValueInput>,
 }
 #[allow(clippy::useless_conversion)]
 impl From<ListValue> for ListValueGraphQl {
@@ -6943,7 +6942,7 @@ impl From<ListValueGraphQl> for ListValue {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ListValue> for ListValueGraphQlInput {
+impl From<ListValue> for ListValueInput {
     fn from(other: ListValue) -> Self {
         let ListValue { values, .. } = other;
         Self {
@@ -6952,9 +6951,9 @@ impl From<ListValue> for ListValueGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<ListValueGraphQlInput> for ListValue {
-    fn from(other: ListValueGraphQlInput) -> Self {
-        let ListValueGraphQlInput { values } = other;
+impl From<ListValueInput> for ListValue {
+    fn from(other: ListValueInput) -> Self {
+        let ListValueInput { values } = other;
         Self {
             values: values.into_iter().map(Into::into).collect(),
         }
@@ -6993,7 +6992,7 @@ pub enum NullValueGraphQl {
     /// Null value.
     NullValue = 0,
 }
-pub use self::NullValueGraphQl as NullValueGraphQlInput;
+pub use self::NullValueGraphQl as NullValueInput;
 /// A Timestamp represents a point in time independent of any time zone or local
 /// calendar, encoded as a count of seconds and fractions of seconds at
 /// nanosecond resolution. The count is relative to an epoch at UTC midnight on
@@ -7209,7 +7208,7 @@ pub struct TimestampGraphQl {
 )]
 #[serde(crate = "::proto_graphql::serde")]
 #[graphql(name = "TimestampInput")]
-pub struct TimestampGraphQlInput {
+pub struct TimestampInput {
     /// Represents seconds of UTC time since Unix epoch
     /// 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
     /// 9999-12-31T23:59:59Z inclusive.
@@ -7241,7 +7240,7 @@ impl From<TimestampGraphQl> for Timestamp {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<Timestamp> for TimestampGraphQlInput {
+impl From<Timestamp> for TimestampInput {
     fn from(other: Timestamp) -> Self {
         let Timestamp { seconds, nanos, .. } = other;
         Self {
@@ -7251,9 +7250,9 @@ impl From<Timestamp> for TimestampGraphQlInput {
     }
 }
 #[allow(clippy::useless_conversion)]
-impl From<TimestampGraphQlInput> for Timestamp {
-    fn from(other: TimestampGraphQlInput) -> Self {
-        let TimestampGraphQlInput { seconds, nanos } = other;
+impl From<TimestampInput> for Timestamp {
+    fn from(other: TimestampInput) -> Self {
+        let TimestampInput { seconds, nanos } = other;
         Self {
             seconds: seconds.into(),
             nanos: nanos.into(),

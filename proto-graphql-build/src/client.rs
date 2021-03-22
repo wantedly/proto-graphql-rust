@@ -267,9 +267,9 @@ fn graphql_path(grpc_ty: &TokenStream, input: bool) -> TokenStream {
     if will_rename(&path) {
         let ident = &mut path.segments.last_mut().unwrap().ident;
         if input {
-            *ident = format_ident!("{}GraphQlInput", ident);
+            *ident = format_ident!("{}Input", ident);
         } else {
-            *ident = format_ident!("{}GraphQl", ident);
+            *ident = format_ident!("{}", ident);
         }
         return path.to_token_stream();
     }
