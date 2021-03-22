@@ -1,0 +1,26 @@
+[package]
+name = "proto-graphql-build"
+version = "0.1.0"
+authors = ["Taiki Endo <te316e89@gmail.com>"]
+edition = "2018"
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/wantedly/proto-graphql-rust"
+publish = false
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+
+[dependencies]
+anyhow = "1.0.39"
+fs = { package = "fs-err", version = "2.5.0" }
+heck = "0.3.2"
+proc-macro2 = "1.0.24"
+prost-build = "0.7.0"
+quote = "1.0.9"
+syn = { version = "1.0.64", features = ["full", "visit-mut", "extra-traits"] }
+# use '=' requirement because tonic-build introduces breaking changes in the patch version.
+# - https://github.com/hyperium/tonic/commit/4f5e160
+# - https://github.com/hyperium/tonic/commit/61555ff
+tonic-build = "=0.4.1"

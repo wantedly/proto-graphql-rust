@@ -1,0 +1,27 @@
+type Query {
+	"""
+	graphql: output(repeated Review reviews)
+	"""
+	reviews: [Review!]!
+	"""
+	graphql: inputs(string id), output(repeated Review reviews)
+	"""
+	reviewsById(id: String!): [Review!]!
+	"""
+	graphql: inputs(string upc), output(repeated Review reviews)
+	"""
+	reviewsByUpc(upc: String!): [Review!]!
+}
+type Review {
+	body: String!
+	author: User
+	product: Product
+}
+extend type User @key(fields: "id") {
+	id: String! @external
+	reviews: [Review!]!
+}
+extend type Product @key(fields: "upc") {
+	upc: String! @external
+	reviews: [Review!]!
+}

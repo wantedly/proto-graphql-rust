@@ -1,0 +1,20 @@
+type Query {
+	me: User!
+	_service: _Service!
+	_entities(representations: [_Any!]!): [_Entity]!
+}
+type User {
+	id: String!
+	username: String!
+}
+"""
+The `_Any` scalar is used to pass representations of entities from external services into the root `_entities` field for execution.
+"""
+scalar _Any
+type _Service {
+	sdl: String
+}
+union _Entity = | User
+schema {
+	query: Query
+}

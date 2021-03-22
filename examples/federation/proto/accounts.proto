@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package federation.accounts;
+
+import "google/protobuf/empty.proto";
+
+// graphql: extends
+service Accounts {
+  rpc Me (google.protobuf.Empty) returns (User);
+  // graphql: entity, inputs(string id), output(optional User user)
+  rpc FindUserById (UserRequest) returns (UserResponse);
+}
+
+message User {
+  string id = 1;
+  string username = 2;
+}
+
+message UserRequest {
+  string id = 1;
+}
+
+message UserResponse {
+  optional User user = 1;
+}

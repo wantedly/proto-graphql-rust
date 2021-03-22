@@ -1,0 +1,11 @@
+extend type Query {
+	"""
+	graphql: output(repeated Product products)
+	"""
+	topProducts: [Product!]!
+}
+type Product @key(fields: "upc") {
+	upc: String!
+	name: String!
+	price: Int!
+}
