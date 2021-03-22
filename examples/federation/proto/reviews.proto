@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package federation.reviews;
+
+import "google/protobuf/empty.proto";
+
+service Reviews {
+  // graphql: output(repeated Review reviews)
+  rpc Reviews (google.protobuf.Empty) returns (ReviewResponse);
+  // graphql: entity, inputs(string id)
+  rpc FindUserById (UserRequest) returns (User);
+  // graphql: entity, inputs(string upc)
+  rpc FindProductByUpc (ProductRequest) returns (Product);
+  // graphql: inputs(string id), output(repeated Review reviews)
+  rpc ReviewsById (UserRequest) returns (ReviewResponse);
+  // graphql: inputs(string upc), output(repeated Review reviews)
+  rpc ReviewsByUpc (ProductRequest) returns (ReviewResponse);
+}
+
+message Review {
+  string body = 1;
+  User author = 2;
+  Product product = 3;
+}
+
+message ReviewResponse {
+  repeated Review reviews = 1;
+}
+
+// graphql: extends, complex
+message User {
+  // graphql: external
+  string id = 1;
+}
+
+message UserRequest {
+  string id = 1;
+}
+
+// graphql: extends, complex
+message Product {
+  // graphql: external
+  string upc = 1;
+}
+
+message ProductRequest {
+  string upc = 1;
+}

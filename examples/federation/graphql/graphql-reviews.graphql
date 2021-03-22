@@ -1,0 +1,40 @@
+type Query {
+	"""
+	graphql: output(repeated Review reviews)
+	"""
+	reviews: [Review!]!
+	"""
+	graphql: inputs(string id), output(repeated Review reviews)
+	"""
+	reviewsById(id: String!): [Review!]!
+	"""
+	graphql: inputs(string upc), output(repeated Review reviews)
+	"""
+	reviewsByUpc(upc: String!): [Review!]!
+	_service: _Service!
+	_entities(representations: [_Any!]!): [_Entity]!
+}
+type Review {
+	body: String!
+	author: User
+	product: Product
+}
+type User {
+	id: String!
+	reviews: [Review!]!
+}
+type Product {
+	upc: String!
+	reviews: [Review!]!
+}
+"""
+The `_Any` scalar is used to pass representations of entities from external services into the root `_entities` field for execution.
+"""
+scalar _Any
+type _Service {
+	sdl: String
+}
+union _Entity = | User | Product
+schema {
+	query: Query
+}

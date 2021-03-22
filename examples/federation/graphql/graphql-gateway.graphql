@@ -1,0 +1,34 @@
+type Product {
+  upc: String!
+  name: String!
+  price: Int!
+  reviews: [Review!]!
+}
+
+type Query {
+  me: User!
+
+  # graphql: output(repeated Product products)
+  topProducts: [Product!]!
+
+  # graphql: output(repeated Review reviews)
+  reviews: [Review!]!
+
+  # graphql: inputs(string id), output(repeated Review reviews)
+  reviewsById(id: String!): [Review!]!
+
+  # graphql: inputs(string upc), output(repeated Review reviews)
+  reviewsByUpc(upc: String!): [Review!]!
+}
+
+type Review {
+  body: String!
+  author: User
+  product: Product
+}
+
+type User {
+  id: String!
+  username: String!
+  reviews: [Review!]!
+}

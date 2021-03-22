@@ -1,0 +1,16 @@
+[package]
+name = "proto-graphql-internal-codegen"
+version = "0.1.0"
+authors = ["Taiki Endo <te316e89@gmail.com>"]
+edition = "2018"
+publish = false
+
+[dependencies]
+anyhow = "1.0.39"
+fs = { package = "fs-err", version = "2.5.0" }
+heck = "0.3.2"
+proc-macro2 = "1.0.24"
+proto-graphql-build = { version = "0.1", path = "../../proto-graphql-build" }
+quote = "1.0.9"
+reqwest = { version = "0.11.2", features = ["blocking"] }
+syn = "1.0.64"

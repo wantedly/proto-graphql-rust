@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package subscription;
+
+service Subscription {
+  rpc ServerStreaming (HelloRequest) returns (stream HelloReply);
+}
+
+message HelloRequest {
+  repeated string names = 1;
+  optional float interval = 2;
+}
+
+message HelloReply {
+  string message = 1;
+}

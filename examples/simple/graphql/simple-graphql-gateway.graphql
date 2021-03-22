@@ -1,0 +1,12 @@
+type GreeterQuery {
+	sayHello(request: HelloRequestInput!): HelloReply!
+}
+input HelloRequestInput {
+	name: String!
+}
+type HelloReply {
+	message: String!
+}
+schema {
+	query: GreeterQuery
+}

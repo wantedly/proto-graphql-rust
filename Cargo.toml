@@ -1,0 +1,12 @@
+[workspace]
+members = [
+    "proto-graphql",
+    "proto-graphql/codegen",
+    "proto-graphql-build",
+
+    "examples/simple",
+    "examples/subscription",
+    "examples/federation",
+]
+
+[patch.crates-io]
