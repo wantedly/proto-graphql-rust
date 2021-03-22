@@ -1,0 +1,24 @@
+type Query {
+	"""
+	graphql: output(repeated Product products)
+	"""
+	topProducts: [Product!]!
+	_service: _Service!
+	_entities(representations: [_Any!]!): [_Entity]!
+}
+type Product {
+	upc: String!
+	name: String!
+	price: Int!
+}
+"""
+The `_Any` scalar is used to pass representations of entities from external services into the root `_entities` field for execution.
+"""
+scalar _Any
+type _Service {
+	sdl: String
+}
+union _Entity = | Product
+schema {
+	query: Query
+}

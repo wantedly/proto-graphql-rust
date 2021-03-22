@@ -1,0 +1,17 @@
+type NoopQuery {
+	_noop: Empty!
+}
+type Empty {
+	_noop: Boolean
+}
+input HelloRequestInput {
+	names: [String!]!
+	interval: Float
+}
+type HelloReply {
+	message: String!
+}
+schema {
+	query: NoopQuery
+	subscription: SubscriptionSubscription
+}

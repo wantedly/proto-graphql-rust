@@ -1,0 +1,22 @@
+[package]
+name = "simple"
+version = "0.1.0"
+authors = ["Taiki Endo <te316e89@gmail.com>"]
+edition = "2018"
+publish = false
+
+[build-dependencies]
+proto-graphql-build = { path = "../../proto-graphql-build" }
+
+[dependencies]
+anyhow = "1.0.39"
+async-graphql = "2.6.2"
+async-graphql-warp = "2.6.2"
+async-trait = "0.1.48"
+fs = { package = "fs-err", version = "2.5.0" }
+prost = "0.7.0"
+proto-graphql = { path = "../../proto-graphql" }
+structopt = "0.3.21"
+tokio = { version = "1.4.0", features = ["full"] }
+tonic = "0.4.1"
+warp = "0.3.0"

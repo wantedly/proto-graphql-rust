@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package federation.products;
+
+import "google/protobuf/empty.proto";
+
+// graphql: extends
+service Products {
+  // graphql: output(repeated Product products)
+  rpc TopProducts (google.protobuf.Empty) returns (ProductsResponse);
+  // graphql: entity, inputs(string upc), output(optional Product product)
+  rpc FindProductByUpc (ProductRequest) returns (ProductResponse);
+}
+
+message Product {
+  string upc = 1;
+  string name = 2;
+  int32 price = 3;
+}
+
+message ProductRequest {
+  string upc = 1;
+}
+
+message ProductsResponse {
+  repeated Product products = 1;
+}
+
+message ProductResponse {
+  optional Product product = 1;
+}

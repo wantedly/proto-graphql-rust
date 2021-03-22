@@ -1,0 +1,23 @@
+[package]
+name = "proto-graphql"
+version = "0.1.0"
+authors = ["Taiki Endo <te316e89@gmail.com>"]
+edition = "2018"
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/wantedly/proto-graphql-rust"
+readme = "../README.md"
+publish = false
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+
+[dependencies]
+# use '=' requirement because async-graphql does not follow semver.
+# - https://github.com/async-graphql/async-graphql/issues/117
+async-graphql = { version = "=2.6.2", default-features = false }
+futures-util = { version = "0.3.13", default-features = false }
+prost = "0.7.0"
+prost-types = "0.7.0"
+serde = { version = "1.0.124", features = ["derive"] }
