@@ -14,7 +14,7 @@ pub(crate) fn generate(
     proto_path: &str,
     enable_federation: bool,
     compile_well_known_types: bool,
-) -> syn::Result<TokenStream> {
+) -> TokenStream {
     let grpc_client =
         tonic_build::client::generate(service, emit_package, proto_path, compile_well_known_types);
 
@@ -30,11 +30,11 @@ pub(crate) fn generate(
         proto_path,
         compile_well_known_types,
         &grpc_client_ty,
-    )?;
+    );
 
     let mut service_doc = parse_attrs(generate_doc_comments(service.comment()));
     let mut annotations = GraphqlAnnotations::default();
-    let impl_annotations = annotations.visit(&mut service_doc, false)?;
+    let impl_annotations = annotations.visit(&mut service_doc, false);
 
     let where_clause = quote! {
         where
@@ -50,7 +50,7 @@ pub(crate) fn generate(
     if !query.is_empty() {
         // The option to allow rename probably makes more sense.
         let graphql_query_name_str = if enable_federation {
-            format!("Query")
+            "Query".to_string()
         } else {
             format!("{}Query", service.name())
         };
@@ -78,7 +78,7 @@ pub(crate) fn generate(
             impl<T> Clone for #query_ty {
                 fn clone(&self) -> Self {
                     Self {
-                        _grpc_client: self._grpc_client.clone(),
+                        _grpc_client: self._grpc_client,
                     }
                 }
             }
@@ -98,7 +98,7 @@ pub(crate) fn generate(
     if !subscription.is_empty() {
         // The option to allow rename probably makes more sense.
         let graphql_subscription_name_str = if enable_federation {
-            format!("Subscription")
+            "Subscription".to_string()
         } else {
             format!("{}Subscription", service.name())
         };
@@ -126,7 +126,7 @@ pub(crate) fn generate(
             impl<T> Clone for #subscription_ty {
                 fn clone(&self) -> Self {
                     Self {
-                        _grpc_client: self._grpc_client.clone(),
+                        _grpc_client: self._grpc_client,
                     }
                 }
             }
@@ -138,7 +138,7 @@ pub(crate) fn generate(
         };
     }
 
-    Ok(quote! {
+    quote! {
         #grpc_client
 
         /// Generated gateway implementations.
@@ -171,7 +171,7 @@ pub(crate) fn generate(
             #query
             #subscription
         }
-    })
+    }
 }
 
 fn generate_methods<T: Service>(
@@ -179,15 +179,14 @@ fn generate_methods<T: Service>(
     proto_path: &str,
     compile_well_known_types: bool,
     grpc_client_ty: &TokenStream,
-) -> syn::Result<(TokenStream, TokenStream)> {
+) -> (TokenStream, TokenStream) {
     let mut query = TokenStream::new();
     let mut subscription = TokenStream::new();
 
     for method in service.methods() {
         let doc_comments = generate_doc_comments(method.comment());
         let mut annotations = GraphqlAnnotations::default();
-        let method_annotations =
-            annotations.visit(&mut parse_attrs(doc_comments.clone()), false)?;
+        let method_annotations = annotations.visit(&mut parse_attrs(doc_comments.clone()), false);
 
         #[allow(clippy::single_match)]
         match (method.client_streaming(), method.server_streaming()) {
@@ -228,7 +227,7 @@ fn generate_methods<T: Service>(
         };
     }
 
-    Ok((query, subscription))
+    (query, subscription)
 }
 
 fn generate_request_arg(

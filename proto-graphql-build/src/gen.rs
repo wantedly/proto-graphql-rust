@@ -218,85 +218,81 @@ impl GraphqlAnnotations {
         &mut self,
         attrs: &mut Vec<syn::Attribute>,
         is_input: bool,
-    ) -> syn::Result<Vec<TokenStream>> {
+    ) -> Vec<TokenStream> {
         let mut res = vec![];
         let mut graphql_doc_indices = BTreeSet::new();
         'outer: for (i, attr) in attrs.iter().enumerate() {
             if attr.path.is_ident("doc") {
-                match attr.parse_meta() {
-                    Ok(syn::Meta::NameValue(m)) => {
-                        if let syn::Lit::Str(s) = m.lit {
-                            for s in s.value().split('\n').map(str::trim) {
-                                if let Some(s) = s.strip_prefix("graphql:") {
-                                    graphql_doc_indices.insert(i);
-                                    for s in s.split(',').map(str::trim) {
-                                        if let Some(s) = s.strip_prefix("inputs") {
-                                            if (s.starts_with("(") || s.starts_with(" ("))
-                                                && s.ends_with(")")
-                                            {
-                                                let s = &s[..s.len() - 1];
-                                                let s = s.strip_prefix("(").unwrap_or_else(|| {
-                                                    s.strip_prefix(" (").unwrap()
-                                                });
-                                                let mut tys = vec![];
-                                                let mut vars = vec![];
-                                                for s in s.split(',') {
-                                                    let (ty, var) = parse_pair(s, true);
-                                                    tys.push(ty);
-                                                    vars.push(var);
-                                                }
-                                                self.inputs = Some((tys, vars));
-                                                continue;
+                if let Ok(syn::Meta::NameValue(m)) = attr.parse_meta() {
+                    if let syn::Lit::Str(s) = m.lit {
+                        for s in s.value().split('\n').map(str::trim) {
+                            if let Some(s) = s.strip_prefix("graphql:") {
+                                graphql_doc_indices.insert(i);
+                                for s in s.split(',').map(str::trim) {
+                                    if let Some(s) = s.strip_prefix("inputs") {
+                                        if (s.starts_with('(') || s.starts_with(" ("))
+                                            && s.ends_with(')')
+                                        {
+                                            let s = &s[..s.len() - 1];
+                                            let s = s
+                                                .strip_prefix("(")
+                                                .unwrap_or_else(|| s.strip_prefix(" (").unwrap());
+                                            let mut tys = vec![];
+                                            let mut vars = vec![];
+                                            for s in s.split(',') {
+                                                let (ty, var) = parse_pair(s, true);
+                                                tys.push(ty);
+                                                vars.push(var);
                                             }
-                                            panic!("invalid inputs {:?}", s);
+                                            self.inputs = Some((tys, vars));
+                                            continue;
                                         }
-                                        if let Some(s) = s.strip_prefix("output") {
-                                            if (s.starts_with("(") || s.starts_with(" ("))
-                                                && s.ends_with(")")
-                                            {
-                                                let s = &s[..s.len() - 1];
-                                                let s = s.strip_prefix("(").unwrap_or_else(|| {
-                                                    s.strip_prefix(" (").unwrap()
-                                                });
-                                                let (ty, var) = parse_pair(s, false);
-                                                self.output = Some((ty, var));
-                                                continue;
-                                            }
-                                            panic!("invalid output {:?}", s);
-                                        }
-                                        match s {
-                                            "complex" => {
-                                                if is_input {
-                                                    continue;
-                                                }
-                                                self.complex = true;
-                                            }
-                                            "extends" => {
-                                                if is_input {
-                                                    continue;
-                                                }
-                                                self.extends = true;
-                                            }
-                                            "external" => {
-                                                if is_input {
-                                                    continue;
-                                                }
-                                                self.external = true;
-                                            }
-                                            "entity" => self.entity = true,
-                                            "skip" => self.skip = true,
-                                            _ => {
-                                                panic!("unknown key {:?}", s)
-                                            }
-                                        }
-                                        res.push(s.parse().unwrap());
+                                        panic!("invalid inputs {:?}", s);
                                     }
+                                    if let Some(s) = s.strip_prefix("output") {
+                                        if (s.starts_with('(') || s.starts_with(" ("))
+                                            && s.ends_with(')')
+                                        {
+                                            let s = &s[..s.len() - 1];
+                                            let s = s
+                                                .strip_prefix("(")
+                                                .unwrap_or_else(|| s.strip_prefix(" (").unwrap());
+                                            let (ty, var) = parse_pair(s, false);
+                                            self.output = Some((ty, var));
+                                            continue;
+                                        }
+                                        panic!("invalid output {:?}", s);
+                                    }
+                                    match s {
+                                        "complex" => {
+                                            if is_input {
+                                                continue;
+                                            }
+                                            self.complex = true;
+                                        }
+                                        "extends" => {
+                                            if is_input {
+                                                continue;
+                                            }
+                                            self.extends = true;
+                                        }
+                                        "external" => {
+                                            if is_input {
+                                                continue;
+                                            }
+                                            self.external = true;
+                                        }
+                                        "entity" => self.entity = true,
+                                        "skip" => self.skip = true,
+                                        _ => {
+                                            panic!("unknown key {:?}", s)
+                                        }
+                                    }
+                                    res.push(s.parse().unwrap());
                                 }
                             }
                         }
                     }
-
-                    _ => {}
                 }
             } else if attr.path.is_ident("deprecated") {
                 if is_input {
@@ -331,7 +327,7 @@ impl GraphqlAnnotations {
         for i in graphql_doc_indices.into_iter().rev() {
             attrs.remove(i);
         }
-        Ok(res)
+        res
     }
 }
 
@@ -353,7 +349,7 @@ pub(crate) fn generate_struct(
     let name = format!("{}{}", path_to_name(module), proto_name);
     let input_name = format!("{}{}Input", path_to_name(module), proto_name);
 
-    let item_annotations = annotations.visit(&mut item.attrs, false).unwrap();
+    let item_annotations = annotations.visit(&mut item.attrs, false);
 
     let derive_struct: syn::Attribute = parse_quote! {
         #[derive(::async_graphql::SimpleObject, ::proto_graphql::serde::Serialize,
@@ -486,7 +482,7 @@ pub(crate) fn generate_struct(
             proto_bindings.push(graphql_bindings.last().unwrap().clone())
         }
 
-        let field_annotations = annotations.visit(&mut field.attrs, false).unwrap();
+        let field_annotations = annotations.visit(&mut field.attrs, false);
 
         if !field_annotations.is_empty() {
             field
@@ -1084,11 +1080,24 @@ pub(crate) fn find_remove(attrs: &mut Vec<syn::Attribute>, ident: &str) -> Optio
 }
 
 pub(crate) fn is_rust_primitive(s: &str) -> bool {
-    match s {
-        "isize" | "i8" | "i16" | "i32" | "i64" | "i128" | "usuze" | "u8" | "u16" | "u32"
-        | "u64" | "u128" | "f32" | "f64" | "bool" => true,
-        _ => false,
-    }
+    matches!(
+        s,
+        "isize"
+            | "i8"
+            | "i16"
+            | "i32"
+            | "i64"
+            | "i128"
+            | "usuze"
+            | "u8"
+            | "u16"
+            | "u32"
+            | "u64"
+            | "u128"
+            | "f32"
+            | "f64"
+            | "bool"
+    )
 }
 
 pub(crate) fn proto_primitive(s: &str) -> Option<TokenStream> {

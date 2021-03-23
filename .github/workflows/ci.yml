@@ -35,6 +35,13 @@ jobs:
       - run: cargo build --all
       - run: git diff --exit-code
 
+  clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: rustup update stable && rustup default stable
+      - run: cargo clippy --all --all-features --all-targets
+
   rustfmt:
     runs-on: ubuntu-latest
     steps:

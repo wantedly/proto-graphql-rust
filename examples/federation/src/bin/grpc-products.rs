@@ -44,24 +44,25 @@ async fn main() -> Result<()> {
     let addr: SocketAddr = ([0, 0, 0, 0], 4004).into();
     println!("{} listening on {}", env!("CARGO_BIN_NAME"), addr);
 
-    let mut products = ProductsService::default();
-    products.data = vec![
-        Product {
-            upc: "top-1".to_string(),
-            name: "Trilby".to_string(),
-            price: 11,
-        },
-        Product {
-            upc: "top-2".to_string(),
-            name: "Fedora".to_string(),
-            price: 22,
-        },
-        Product {
-            upc: "top-3".to_string(),
-            name: "Boater".to_string(),
-            price: 33,
-        },
-    ];
+    let products = ProductsService {
+        data: vec![
+            Product {
+                upc: "top-1".to_string(),
+                name: "Trilby".to_string(),
+                price: 11,
+            },
+            Product {
+                upc: "top-2".to_string(),
+                name: "Fedora".to_string(),
+                price: 22,
+            },
+            Product {
+                upc: "top-3".to_string(),
+                name: "Boater".to_string(),
+                price: 33,
+            },
+        ],
+    };
 
     Server::builder()
         .add_service(ProductsServer::new(products))
