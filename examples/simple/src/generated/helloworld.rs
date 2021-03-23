@@ -135,7 +135,7 @@ pub mod greeter_graphql {
     impl<T> Clone for GreeterQuery<T> {
         fn clone(&self) -> Self {
             Self {
-                _grpc_client: self._grpc_client.clone(),
+                _grpc_client: self._grpc_client,
             }
         }
     }

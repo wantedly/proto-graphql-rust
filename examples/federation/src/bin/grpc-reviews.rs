@@ -88,30 +88,36 @@ async fn main() -> Result<()> {
     let addr: SocketAddr = ([0, 0, 0, 0], 4006).into();
     println!("{} listening on {}", env!("CARGO_BIN_NAME"), addr);
 
-    let mut reviews = ReviewsService::default();
-    reviews.data = vec![
-        Review {
-            body: "A highly effective form of birth control.".into(),
-            author: User { id: "1234".into() }.into(),
-            product: Product {
-                upc: "top-1".to_string(),
-            }.into(),
-        },
-        Review {
-            body: "Fedoras are one of the most fashionable hats around and can look great with a variety of outfits.".into(),
-            author: User { id: "1234".into() }.into(),
-            product: Product {
-                upc: "top-1".to_string(),
-            }.into(),
-        },
-        Review {
-            body: "This is the last straw. Hat you will wear. 11/10".into(),
-            author: User { id: "7777".into() }.into(),
-            product: Product {
-                upc: "top-1".to_string(),
-            }.into(),
-        },
-    ];
+    let reviews = ReviewsService {
+        data: vec![
+            Review {
+                body: "A highly effective form of birth control.".into(),
+                author: User { id: "1234".into() }.into(),
+                product: Product {
+                    upc: "top-1".to_string(),
+                }
+                .into(),
+            },
+            Review {
+                body: "Fedoras are one of the most fashionable hats around and can look \
+                       great with a variety of outfits."
+                    .into(),
+                author: User { id: "1234".into() }.into(),
+                product: Product {
+                    upc: "top-1".to_string(),
+                }
+                .into(),
+            },
+            Review {
+                body: "This is the last straw. Hat you will wear. 11/10".into(),
+                author: User { id: "7777".into() }.into(),
+                product: Product {
+                    upc: "top-1".to_string(),
+                }
+                .into(),
+            },
+        ],
+    };
 
     Server::builder()
         .add_service(ReviewsServer::new(reviews))

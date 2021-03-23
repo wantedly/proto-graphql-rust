@@ -176,7 +176,7 @@ pub mod accounts_graphql {
     impl<T> Clone for AccountsQuery<T> {
         fn clone(&self) -> Self {
             Self {
-                _grpc_client: self._grpc_client.clone(),
+                _grpc_client: self._grpc_client,
             }
         }
     }
