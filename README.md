@@ -2,6 +2,14 @@
 
 [![build status](https://img.shields.io/github/workflow/status/wantedly/proto-graphql-rust/CI/master?style=flat-square&logo=github)](https://github.com/wantedly/proto-graphql-rust/actions)
 
+**[EXPERIMENTAL]** Generate GraphQL schema and gateway from Proto definitions.
+
+## Examples
+
+- [Simple graphql-gateway](examples/simple)
+- [Streaming RPC / Subscription](examples/subscription)
+- [Apollo Federation](examples/federation)
+
 ## License
 
 Licensed under either of [Apache License, Version 2.0](LICENSE-APACHE) or

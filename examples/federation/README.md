@@ -1,4 +1,4 @@
-# Apollo Federation example
+# Apollo Federation
 
 ## How to run
 
@@ -7,9 +7,9 @@ cd examples/simple
 ./start.sh
 ```
 
-Open http://localhost:4000 in browser.
+Then, open <http://localhost:4000> in browser.
 
-[Generated GraphQL schema](graphql/graphql-gateway.graphql)
+[*Generated GraphQL schema*](graphql/graphql-gateway.graphql)
 
 Query example:
 

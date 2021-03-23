@@ -1,4 +1,4 @@
-# Server Streaming RPC example
+# Streaming RPC / Subscription
 
 ## How to run
 
@@ -7,9 +7,9 @@ cd examples/subscription
 ./start.sh
 ```
 
-Open http://localhost:4000 in browser.
+Then, open <http://localhost:4000> in browser.
 
-[Generated GraphQL schema](graphql/subscription-graphql-gateway.graphql)
+[*Generated GraphQL schema*](graphql/subscription-graphql-gateway.graphql)
 
 Subscription example:
 
