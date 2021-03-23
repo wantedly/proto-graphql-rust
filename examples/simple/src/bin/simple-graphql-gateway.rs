@@ -1,10 +1,7 @@
 use std::{convert::Infallible, env, net::SocketAddr};
 
 use anyhow::Result;
-use async_graphql::{
-    extensions::ApolloTracing,
-    http::{playground_source, GraphQLPlaygroundConfig},
-};
+use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql_warp::{graphql, BadRequest, Response};
 use structopt::StructOpt;
 use tonic::transport::Channel;
@@ -44,10 +41,7 @@ async fn main() -> Result<()> {
 
     let grpc_client = GreeterClient::connect("http://localhost:4001").await?;
 
-    let schema = build_graphql_schema::<Channel>()
-        .data(grpc_client)
-        .extension(ApolloTracing) // Enable ApolloTracing extension
-        .finish();
+    let schema = build_graphql_schema::<Channel>().data(grpc_client).finish();
 
     let graphql_post = graphql(schema).and_then(
         move |(schema, request): (GreeterSchema<_>, async_graphql::Request)| async move {

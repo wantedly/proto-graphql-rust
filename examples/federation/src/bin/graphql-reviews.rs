@@ -25,9 +25,12 @@ async fn main() -> Result<()> {
     .enable_federation()
     .finish();
 
-    fs::write(format!("{}.graphql", env!("CARGO_BIN_NAME")), schema.sdl())?;
     fs::write(
-        format!("{}.federation.graphql", env!("CARGO_BIN_NAME")),
+        format!("graphql/{}.graphql", env!("CARGO_BIN_NAME")),
+        schema.sdl(),
+    )?;
+    fs::write(
+        format!("graphql/{}.federation.graphql", env!("CARGO_BIN_NAME")),
         schema.federation_sdl(),
     )?;
 
