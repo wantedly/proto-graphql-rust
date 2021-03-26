@@ -15,8 +15,8 @@ const PROST_TAG: &str = "v0.7.0";
 
 fn main() -> Result<()> {
     let mut root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    root_dir.pop();
-    root_dir.pop();
+    root_dir.pop(); // codegen
+    root_dir.pop(); // tools
 
     let out_dir = root_dir.join("proto-graphql/src/generated");
 
