@@ -1,10 +1,9 @@
 use std::{env, net::SocketAddr, pin::Pin};
 
 use anyhow::Result;
-use async_trait::async_trait;
 use futures::stream::Stream;
 use tokio::time::{self, Duration};
-use tonic::{transport::Server, Request, Response, Status};
+use tonic::{async_trait, transport::Server, Request, Response, Status};
 
 use pb::{
     subscription_server::{Subscription, SubscriptionServer},

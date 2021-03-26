@@ -13,8 +13,6 @@ anyhow = "1.0.39"
 async-graphql = "2.6.2"
 async-graphql-warp = "2.6.2"
 async-stream = "0.3.0"
-async-trait = "0.1.48"
-fs = { package = "fs-err", version = "2.5.0" }
 futures = "0.3.13"
 prost = "0.7.0"
 proto-graphql = { path = "../../proto-graphql" }

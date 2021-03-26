@@ -1,8 +1,7 @@
 use std::{env, net::SocketAddr};
 
 use anyhow::Result;
-use async_trait::async_trait;
-use tonic::{transport::Server, Request, Response, Status};
+use tonic::{async_trait, transport::Server, Request, Response, Status};
 
 use pb::{
     greeter_server::{Greeter, GreeterServer},
