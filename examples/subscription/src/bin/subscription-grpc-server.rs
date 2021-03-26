@@ -1,6 +1,5 @@
 use std::{env, net::SocketAddr, pin::Pin};
 
-use anyhow::Result;
 use futures::stream::Stream;
 use tokio::time::{self, Duration};
 use tonic::{async_trait, transport::Server, Request, Response, Status};
@@ -20,7 +19,7 @@ struct MySubscription {}
 #[async_trait]
 impl Subscription for MySubscription {
     type ServerStreamingStream =
-        Pin<Box<dyn Stream<Item = Result<HelloReply, tonic::Status>> + Send + Sync + 'static>>;
+        Pin<Box<dyn Stream<Item = Result<HelloReply, Status>> + Send + Sync + 'static>>;
 
     async fn server_streaming(
         &self,
@@ -44,7 +43,7 @@ impl Subscription for MySubscription {
 }
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr: SocketAddr = ([0, 0, 0, 0], 4001).into();
     println!("{} listening on {}", env!("CARGO_BIN_NAME"), addr);
 

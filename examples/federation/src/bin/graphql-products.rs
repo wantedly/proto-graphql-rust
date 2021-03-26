@@ -1,6 +1,5 @@
 use std::{convert::Infallible, env, fs, net::SocketAddr};
 
-use anyhow::Result;
 use async_graphql::{EmptyMutation, EmptySubscription, Schema};
 use async_graphql_warp::{graphql, Response};
 use tonic::transport::Channel;
@@ -9,7 +8,7 @@ use warp::Filter;
 use federation::pb::products::{products_client::ProductsClient, products_graphql::ProductsQuery};
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr: SocketAddr = ([0, 0, 0, 0], 4003).into();
     println!("{} listening on {}", env!("CARGO_BIN_NAME"), addr);
 

@@ -1,6 +1,5 @@
 use std::{env, net::SocketAddr};
 
-use anyhow::Result;
 use tonic::{async_trait, transport::Server, Request, Response, Status};
 
 use federation::pb::reviews::{
@@ -83,7 +82,7 @@ impl Reviews for ReviewsService {
 }
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr: SocketAddr = ([0, 0, 0, 0], 4006).into();
     println!("{} listening on {}", env!("CARGO_BIN_NAME"), addr);
 

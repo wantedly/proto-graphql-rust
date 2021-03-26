@@ -1,6 +1,5 @@
 use std::{convert::Infallible, env, net::SocketAddr};
 
-use anyhow::Result;
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql_warp::{graphql, BadRequest, Response};
 use structopt::StructOpt;
@@ -24,7 +23,7 @@ struct Args {
 }
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::from_args();
 
     if args.sdl {
