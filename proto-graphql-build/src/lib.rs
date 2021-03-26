@@ -8,6 +8,7 @@ use quote::TokenStreamExt;
 use syn::parse::{Parse, ParseStream};
 use tonic_build::{Method, Service};
 
+#[doc(no_inline)]
 pub use prost_build::Config;
 
 mod prost;

@@ -1,9 +1,12 @@
 extern crate alloc;
 extern crate self as proto_graphql;
 
+#[doc(hidden)]
 pub use futures_util;
+#[doc(hidden)]
 pub use serde;
 
+#[doc(hidden)]
 pub mod prost_types;
 
 #[doc(hidden)]
