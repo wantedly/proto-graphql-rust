@@ -9,11 +9,11 @@ publish = false
 proto-graphql-build = { path = "../../proto-graphql-build" }
 
 [dependencies]
-anyhow = "1.0.39"
-async-graphql = "2.6.2"
-async-graphql-warp = "2.6.2"
-prost = "0.7.0"
+anyhow = "1"
+async-graphql = "2"
+async-graphql-warp = "2"
+prost = "0.7"
 proto-graphql = { path = "../../proto-graphql" }
-tokio = { version = "1.4.0", features = ["full"] }
-tonic = "0.4.1"
-warp = "0.3.0"
+tokio = { version = "1", features = ["full"] }
+tonic = "0.4"
+warp = "0.3"
