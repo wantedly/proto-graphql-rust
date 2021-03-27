@@ -1,3 +1,5 @@
+#![warn(rust_2018_idioms)]
+
 use std::{
     io::{self, Write},
     process::{self, Command},
@@ -86,7 +88,7 @@ fn parse_attrs(tokens: TokenStream) -> Vec<syn::Attribute> {
     struct Attributes(Vec<syn::Attribute>);
 
     impl Parse for Attributes {
-        fn parse(input: ParseStream) -> syn::Result<Self> {
+        fn parse(input: ParseStream<'_>) -> syn::Result<Self> {
             syn::Attribute::parse_outer(input).map(Self)
         }
     }

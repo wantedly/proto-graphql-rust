@@ -1,3 +1,5 @@
+#![warn(rust_2018_idioms)]
+
 pub mod pb {
     pub mod accounts {
         include!("generated/federation.accounts.rs");

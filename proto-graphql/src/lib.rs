@@ -1,4 +1,5 @@
-extern crate alloc;
+#![warn(rust_2018_idioms)]
+
 extern crate self as proto_graphql;
 
 #[doc(hidden)]

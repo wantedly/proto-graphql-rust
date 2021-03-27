@@ -1,3 +1,5 @@
+#![warn(rust_2018_idioms)]
+
 use std::{env, net::SocketAddr};
 
 use tonic::{async_trait, transport::Server, Request, Response, Status};

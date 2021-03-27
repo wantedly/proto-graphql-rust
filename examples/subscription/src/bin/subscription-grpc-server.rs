@@ -1,3 +1,5 @@
+#![warn(rust_2018_idioms)]
+
 use std::{env, net::SocketAddr, pin::Pin};
 
 use futures::stream::Stream;

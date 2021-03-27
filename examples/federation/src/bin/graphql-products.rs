@@ -1,3 +1,5 @@
+#![warn(rust_2018_idioms)]
+
 use std::{convert::Infallible, env, fs, net::SocketAddr};
 
 use async_graphql::{EmptyMutation, EmptySubscription, Schema};

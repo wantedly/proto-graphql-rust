@@ -1,3 +1,5 @@
+#![warn(rust_2018_idioms)]
+
 use std::path::PathBuf;
 
 use anyhow::{Context as _, Result};

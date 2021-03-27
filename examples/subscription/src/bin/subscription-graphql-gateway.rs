@@ -1,3 +1,5 @@
+#![warn(rust_2018_idioms)]
+
 use std::{convert::Infallible, env, net::SocketAddr};
 
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
