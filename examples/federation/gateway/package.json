@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "index.js",
   "dependencies": {
-    "@apollo/gateway": "^0.25.0",
+    "@apollo/gateway": "^0.25.1",
     "apollo-server": "^2.22.1",
     "graphql": "^15.5.0"
   }
