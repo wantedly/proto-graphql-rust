@@ -4,7 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "@apollo/gateway": "^0.26.0",
-    "apollo-server": "^2.22.1",
+    "apollo-server": "^2.22.2",
     "graphql": "^15.5.0"
   }
 }
