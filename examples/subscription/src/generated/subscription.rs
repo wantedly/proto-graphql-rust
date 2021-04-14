@@ -172,7 +172,7 @@ pub mod subscription_server {
     #[async_trait]
     pub trait Subscription: Send + Sync + 'static {
         ///Server streaming response type for the ServerStreaming method.
-        type ServerStreamingStream: Stream<Item = Result<super::HelloReply, tonic::Status>>
+        type ServerStreamingStream: futures_core::Stream<Item = Result<super::HelloReply, tonic::Status>>
             + Send
             + Sync
             + 'static;
