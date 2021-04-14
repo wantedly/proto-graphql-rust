@@ -31,8 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: rustup update stable && rustup default stable
-      - run: cargo run --manifest-path tools/codegen/Cargo.toml
-      - run: cargo build --all
+      - run: tools/gen.sh
       - run: git diff --exit-code
 
   clippy:
