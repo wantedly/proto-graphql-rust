@@ -4,6 +4,11 @@
 
 **[EXPERIMENTAL]** Generate GraphQL schema and gateway from Proto definitions.
 
+## Documentation
+
+- [Blog post (Japanese)](https://www.wantedly.com/companies/wantedly/post_articles/314403)
+- [Protobuf -> GraphQL Schema Conversion](docs/schema-conversion.md)
+
 ## Examples
 
 - [Simple graphql-gateway](examples/simple)
