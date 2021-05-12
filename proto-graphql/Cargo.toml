@@ -16,7 +16,7 @@ targets = ["x86_64-unknown-linux-gnu"]
 [dependencies]
 # use '=' requirement because async-graphql does not follow semver.
 # - https://github.com/async-graphql/async-graphql/issues/117
-async-graphql = { version = "=2.8.4", default-features = false }
+async-graphql = { version = "=2.8.5", default-features = false }
 futures-util = { version = "0.3.13", default-features = false }
 prost = "0.7.0"
 prost-types = "0.7.0"
