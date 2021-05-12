@@ -23,14 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: rustup update stable && rustup default stable
+      - run: rustup update stable
       - run: cargo test --all --tests
 
   codegen:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: rustup update stable && rustup default stable
+      - run: rustup update stable
       - run: tools/gen.sh
       - run: git diff --exit-code
 
@@ -38,12 +38,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: rustup update stable && rustup default stable
+      - run: rustup update stable
       - run: cargo clippy --all --all-features --all-targets
 
-  rustfmt:
+  fmt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: rustup update stable && rustup default stable
+      - run: rustup update stable
       - run: cargo fmt --all -- --check
