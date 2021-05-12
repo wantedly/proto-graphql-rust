@@ -7,13 +7,6 @@ updates:
     commit-message:
       prefix: ''
     labels: []
-  - package-ecosystem: github-actions
-    directory: /
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: ''
-    labels: []
   - package-ecosystem: npm
     directory: /examples/federation/gateway/
     schedule:
