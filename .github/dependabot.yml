@@ -7,11 +7,11 @@ updates:
     commit-message:
       prefix: ''
     labels: []
-  - package-ecosystem: npm
-    directory: /examples/federation/gateway/
-    schedule:
-      # We only use npm in examples, so we don't need to update it often.
-      interval: monthly
-    commit-message:
-      prefix: ''
-    labels: []
+  # We only use npm in examples, so we don't need to update it often.
+  # - package-ecosystem: npm
+  #   directory: /examples/federation/gateway/
+  #   schedule:
+  #     interval: monthly
+  #   commit-message:
+  #     prefix: ''
+  #   labels: []
