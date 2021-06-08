@@ -151,7 +151,7 @@ impl Builder {
         self
     }
 
-    /// Enable the output to be formated by rustfmt.
+    /// Enable the output to be formatted by rustfmt.
     pub fn format(mut self, run: bool) -> Self {
         self.format = run;
         self

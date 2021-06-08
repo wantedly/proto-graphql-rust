@@ -1088,7 +1088,7 @@ pub(crate) fn is_rust_primitive(s: &str) -> bool {
             | "i32"
             | "i64"
             | "i128"
-            | "usuze"
+            | "usize"
             | "u8"
             | "u16"
             | "u32"
