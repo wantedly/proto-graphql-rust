@@ -235,7 +235,7 @@ impl GraphqlAnnotations {
                                         {
                                             let s = &s[..s.len() - 1];
                                             let s = s
-                                                .strip_prefix("(")
+                                                .strip_prefix('(')
                                                 .unwrap_or_else(|| s.strip_prefix(" (").unwrap());
                                             let mut tys = vec![];
                                             let mut vars = vec![];
@@ -255,7 +255,7 @@ impl GraphqlAnnotations {
                                         {
                                             let s = &s[..s.len() - 1];
                                             let s = s
-                                                .strip_prefix("(")
+                                                .strip_prefix('(')
                                                 .unwrap_or_else(|| s.strip_prefix(" (").unwrap());
                                             let (ty, var) = parse_pair(s, false);
                                             self.output = Some((ty, var));
