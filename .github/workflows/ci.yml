@@ -46,4 +46,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: rustup update stable
+      - name: Install prettier
+        run: sudo npm install -g prettier
+      - name: Install shfmt
+        run: |
+          GO111MODULE=on go get mvdan.cc/sh/v3/cmd/shfmt
+          echo "$HOME/go/bin" >>"$GITHUB_PATH"
       - run: tools/fmt.sh
