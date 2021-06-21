@@ -6,9 +6,9 @@ import "google/protobuf/empty.proto";
 
 // graphql: extends
 service Accounts {
-  rpc Me (google.protobuf.Empty) returns (User);
+  rpc Me(google.protobuf.Empty) returns (User);
   // graphql: entity, inputs(string id), output(optional User user)
-  rpc FindUserById (UserRequest) returns (UserResponse);
+  rpc FindUserById(UserRequest) returns (UserResponse);
 }
 
 message User {

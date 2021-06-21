@@ -8,7 +8,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-cd "$(cd "$(dirname "${0}")" && pwd)"/..
+cd "$(cd "$(dirname "$0")" && pwd)"/..
 
 cargo run --manifest-path tools/codegen/Cargo.toml
 

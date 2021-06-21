@@ -7,9 +7,9 @@ import "google/protobuf/empty.proto";
 // graphql: extends
 service Products {
   // graphql: output(repeated Product products)
-  rpc TopProducts (google.protobuf.Empty) returns (ProductsResponse);
+  rpc TopProducts(google.protobuf.Empty) returns (ProductsResponse);
   // graphql: entity, inputs(string upc), output(optional Product product)
-  rpc FindProductByUpc (ProductRequest) returns (ProductResponse);
+  rpc FindProductByUpc(ProductRequest) returns (ProductResponse);
 }
 
 message Product {

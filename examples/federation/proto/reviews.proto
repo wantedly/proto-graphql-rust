@@ -6,15 +6,15 @@ import "google/protobuf/empty.proto";
 
 service Reviews {
   // graphql: output(repeated Review reviews)
-  rpc Reviews (google.protobuf.Empty) returns (ReviewResponse);
+  rpc Reviews(google.protobuf.Empty) returns (ReviewResponse);
   // graphql: entity, inputs(string id)
-  rpc FindUserById (UserRequest) returns (User);
+  rpc FindUserById(UserRequest) returns (User);
   // graphql: entity, inputs(string upc)
-  rpc FindProductByUpc (ProductRequest) returns (Product);
+  rpc FindProductByUpc(ProductRequest) returns (Product);
   // graphql: inputs(string id), output(repeated Review reviews)
-  rpc ReviewsById (UserRequest) returns (ReviewResponse);
+  rpc ReviewsById(UserRequest) returns (ReviewResponse);
   // graphql: inputs(string upc), output(repeated Review reviews)
-  rpc ReviewsByUpc (ProductRequest) returns (ReviewResponse);
+  rpc ReviewsByUpc(ProductRequest) returns (ReviewResponse);
 }
 
 message Review {

@@ -3,7 +3,7 @@ syntax = "proto3";
 package subscription;
 
 service Subscription {
-  rpc ServerStreaming (HelloRequest) returns (stream HelloReply);
+  rpc ServerStreaming(HelloRequest) returns (stream HelloReply);
 }
 
 message HelloRequest {
