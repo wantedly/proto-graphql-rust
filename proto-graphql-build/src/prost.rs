@@ -69,6 +69,7 @@ impl prost_build::ServiceGenerator for ServiceGenerator {
                 self.builder.emit_package,
                 &self.builder.proto_path,
                 self.builder.compile_well_known_types,
+                &tonic_build::Attributes::default(),
             );
             self.servers.extend(server);
         }

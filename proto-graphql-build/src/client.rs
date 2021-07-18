@@ -15,8 +15,13 @@ pub(crate) fn generate(
     enable_federation: bool,
     compile_well_known_types: bool,
 ) -> TokenStream {
-    let grpc_client =
-        tonic_build::client::generate(service, emit_package, proto_path, compile_well_known_types);
+    let grpc_client = tonic_build::client::generate(
+        service,
+        emit_package,
+        proto_path,
+        compile_well_known_types,
+        &tonic_build::Attributes::default(),
+    );
 
     let grpc_service_name = format_ident!("{}Client", service.name());
     let grpc_client_mod = format_ident!("{}_client", service.name().to_snake_case());
@@ -40,9 +45,9 @@ pub(crate) fn generate(
         where
             T: tonic::client::GrpcService<tonic::body::BoxBody> + Send + Sync + Clone + 'static,
             T::Future: Send,
-            T::ResponseBody: Body + HttpBody + Send + 'static,
+            T::ResponseBody: Body + Send + Sync + 'static,
             T::Error: Into<StdError>,
-            <T::ResponseBody as HttpBody>::Error: Into<StdError> + Send,
+            <T::ResponseBody as Body>::Error: Into<StdError> + Send,
     };
 
     let mut query_ty = quote! { ::proto_graphql::NoopQuery };
