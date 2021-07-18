@@ -93,7 +93,7 @@ impl VisitMut for TypeVisitor {
 
         map_to_json(&mut *path);
 
-        if will_rename(&path) {
+        if will_rename(path) {
             let ident = &mut path.segments.last_mut().unwrap().ident;
             if self.input {
                 *ident = format_ident!("{}GraphQlInput", ident);
@@ -112,7 +112,7 @@ fn needs_wrap_in_json(path: &syn::Path) -> bool {
 }
 
 fn map_to_json(path: &mut syn::Path) {
-    if needs_wrap_in_json(&path) {
+    if needs_wrap_in_json(path) {
         *path = parse_quote!(::async_graphql::Json<#path>);
     }
 }
