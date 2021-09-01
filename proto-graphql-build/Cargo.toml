@@ -23,4 +23,4 @@ syn = { version = "1.0.64", features = ["full", "visit-mut", "extra-traits"] }
 # use '=' requirement because tonic-build introduces breaking changes in the patch version.
 # - https://github.com/hyperium/tonic/commit/4f5e160
 # - https://github.com/hyperium/tonic/commit/61555ff
-tonic-build = "=0.5.1"
+tonic-build = "=0.5.2"
