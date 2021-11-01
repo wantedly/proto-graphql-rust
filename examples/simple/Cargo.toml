@@ -15,5 +15,5 @@ prost = "0.8"
 proto-graphql = { path = "../../proto-graphql" }
 structopt = "0.3"
 tokio = { version = "1", features = ["full"] }
-tonic = "0.5"
+tonic = "0.6"
 warp = "0.3"

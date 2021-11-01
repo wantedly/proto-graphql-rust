@@ -14,5 +14,5 @@ async-graphql-warp = "2"
 prost = "0.8"
 proto-graphql = { path = "../../proto-graphql" }
 tokio = { version = "1", features = ["full"] }
-tonic = "0.5"
+tonic = "0.6"
 warp = "0.3"
