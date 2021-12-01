@@ -9,7 +9,7 @@ publish = false
 proto-graphql-build = { path = "../../proto-graphql-build" }
 
 [dependencies]
-async-graphql = "2"
+async-graphql = "3"
 async-graphql-warp = "2"
 prost = "0.8"
 proto-graphql = { path = "../../proto-graphql" }
