@@ -1027,7 +1027,7 @@ pub(crate) fn convert_field(
     (convert.clone(), convert, quote!())
 }
 
-pub(crate) fn is_proto(attrs: &mut Vec<syn::Attribute>) -> bool {
+pub(crate) fn is_proto(attrs: &mut [syn::Attribute]) -> bool {
     for (i, meta) in attrs
         .iter_mut()
         .enumerate()
