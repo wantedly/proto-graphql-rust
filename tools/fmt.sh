@@ -24,7 +24,7 @@ if [[ -z "${CI:-}" ]]; then
         clang-format -i $(git ls-files '*.proto')
     fi
 else
-    cargo fmt --all -- --check
+    cargo fmt --all --check
     shfmt -d $(git ls-files '*.sh')
     prettier -c $(git ls-files '*.yml')
     prettier -c $(git ls-files '*.js')
