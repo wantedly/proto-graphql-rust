@@ -1,0 +1,6 @@
+[book]
+authors = ["Taiki Endo"]
+description = "Book"
+src = "src"
+language = "en"
+title = "Book"

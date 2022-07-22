@@ -2,6 +2,7 @@ book
 node_modules
 target
 Cargo.lock
+yarn.lock
 
 # For platform and editor specific settings, it is recommended to add to
 # a global .gitignore file.
