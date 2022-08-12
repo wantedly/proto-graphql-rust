@@ -1,6 +1,7 @@
 #![warn(rust_2018_idioms)]
 
 pub mod pb {
+    #![allow(clippy::derive_partial_eq_without_eq)]
     pub mod accounts {
         include!("generated/federation.accounts.rs");
     }
