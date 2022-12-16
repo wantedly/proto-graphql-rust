@@ -94,7 +94,7 @@ impl prost_build::ServiceGenerator for ServiceGenerator {
                 #clients
             };
 
-            let code = format!("{}", client_service);
+            let code = format!("{client_service}");
             buf.push_str(&code);
 
             self.clients = TokenStream::default();
@@ -107,7 +107,7 @@ impl prost_build::ServiceGenerator for ServiceGenerator {
                 #servers
             };
 
-            let code = format!("{}", server_service);
+            let code = format!("{server_service}");
             buf.push_str(&code);
 
             self.servers = TokenStream::default();

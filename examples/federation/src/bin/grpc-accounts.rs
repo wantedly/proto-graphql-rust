@@ -31,7 +31,7 @@ impl Accounts for AccountsService {
         let username = if id == "1234" {
             "Me".to_string()
         } else {
-            format!("User {:?}", id)
+            format!("User {id:?}")
         };
         let reply = UserResponse {
             user: Some(User { id, username }),

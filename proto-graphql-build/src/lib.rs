@@ -39,12 +39,12 @@ pub fn fmt(out_dir: &str) {
             .arg("2018")
             .arg("--config")
             .arg("normalize_doc_attributes=true")
-            .arg(format!("{}/{}", out_dir, file))
+            .arg(format!("{out_dir}/{file}"))
             .output();
 
         match result {
             Err(e) => {
-                eprintln!("error running rustfmt: {:?}", e);
+                eprintln!("error running rustfmt: {e:?}");
                 process::exit(1)
             }
             Ok(output) => {
