@@ -1,6 +1,6 @@
 use std::collections::{BTreeMap, BTreeSet};
 
-use heck::{CamelCase, SnakeCase};
+use heck::{ToSnakeCase, ToUpperCamelCase};
 use proc_macro2::{Ident, TokenStream};
 use quote::{format_ident, quote};
 use syn::{
@@ -160,7 +160,7 @@ fn parse_proto_ty(
             quote! { ::core::option::Option<#ty> }
         } else {
             let ty: TokenStream =
-                format!("{}{}{}", path_prefix, ty_str.to_camel_case(), ty_suffix).parse()?;
+                format!("{path_prefix}{}{ty_suffix}", ty_str.to_upper_camel_case()).parse()?;
             quote! { ::core::option::Option<#ty> }
         }
     } else if input.peek(kw::repeated) {
@@ -171,7 +171,7 @@ fn parse_proto_ty(
             quote! { ::prost::alloc::vec::Vec<#ty> }
         } else {
             let ty: TokenStream =
-                format!("{}{}{}", path_prefix, ty_str.to_camel_case(), ty_suffix).parse()?;
+                format!("{path_prefix}{}{ty_suffix}", ty_str.to_upper_camel_case()).parse()?;
             quote! { ::prost::alloc::vec::Vec<#ty> }
         }
     } else {
@@ -180,7 +180,7 @@ fn parse_proto_ty(
         if let Some(ty) = proto_primitive(ty_str) {
             ty
         } else {
-            format!("{}{}{}", path_prefix, ty_str.to_camel_case(), ty_suffix)
+            format!("{path_prefix}{}{ty_suffix}", ty_str.to_upper_camel_case())
                 .parse::<TokenStream>()?
         }
     };
@@ -1137,7 +1137,7 @@ pub(crate) fn will_rename(path: &syn::Path) -> bool {
 pub(crate) fn path_to_name<'a>(segments: impl IntoIterator<Item = &'a syn::PathSegment>) -> String {
     let mut name = String::new();
     for seg in segments {
-        name.push_str(&seg.ident.unraw().to_string().to_camel_case());
+        name.push_str(&seg.ident.unraw().to_string().to_upper_camel_case());
     }
     name
 }
