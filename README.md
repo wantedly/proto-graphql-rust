@@ -1,6 +1,6 @@
 # proto-graphql
 
-[![build status](https://img.shields.io/github/workflow/status/wantedly/proto-graphql-rust/CI/master?style=flat-square&logo=github)](https://github.com/wantedly/proto-graphql-rust/actions)
+[![build status](https://img.shields.io/github/actions/workflow/status/wantedly/proto-graphql-rust/ci.yml?branch=master&style=flat-square&logo=github)](https://github.com/wantedly/proto-graphql-rust/actions)
 
 **[EXPERIMENTAL]** Generate GraphQL schema and gateway from Proto definitions.
 
