@@ -27,7 +27,7 @@ fn main() -> Result<()> {
     let out_dir = root_dir.join("proto-graphql/src/generated");
 
     let base_url =
-        format!("https://raw.githubusercontent.com/danburkert/prost/{PROST_TAG}/prost-types/src/");
+        format!("https://raw.githubusercontent.com/tokio-rs/prost/{PROST_TAG}/prost-types/src/");
     for file in &["compiler.rs", "protobuf.rs"] {
         let url = format!("{base_url}{file}");
         let text = reqwest::blocking::get(&url)?.text()?;
