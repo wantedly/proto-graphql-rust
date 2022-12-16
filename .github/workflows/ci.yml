@@ -1,18 +1,24 @@
 name: CI
 
+permissions:
+  contents: read
+
 on:
   pull_request:
   push:
     branches:
       - master
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 1 * * 5'
+  workflow_dispatch:
 
 env:
   CARGO_INCREMENTAL: 0
+  CARGO_NET_RETRY: 10
   CARGO_TERM_COLOR: always
-  RUSTFLAGS: -D warnings
   RUST_BACKTRACE: 1
+  RUSTFLAGS: -D warnings
+  RUSTUP_MAX_RETRIES: 10
 
 defaults:
   run:
@@ -46,8 +52,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: rustup update stable
-      - name: Install prettier
-        run: sudo npm install -g prettier
       - name: Install shfmt
         uses: taiki-e/install-action@shfmt
       - run: tools/fmt.sh
