@@ -30,7 +30,7 @@ fn main() -> Result<()> {
         format!("https://raw.githubusercontent.com/tokio-rs/prost/{PROST_TAG}/prost-types/src/");
     for file in &["compiler.rs", "protobuf.rs"] {
         let url = format!("{base_url}{file}");
-        let text = reqwest::blocking::get(&url)?.text()?;
+        let text = reqwest::blocking::get(url)?.text()?;
         fs::write(out_dir.join(file), text)?;
     }
 
